@@ -20,14 +20,17 @@ export class SpeechService {
   }
 
   private initializeRecognition() {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    
-    if (SpeechRecognition) {
-      this.recognition = new SpeechRecognition();
-      this.isSupported = true;
-      this.setupRecognition();
-    } else {
-      console.warn('Speech recognition not supported in this browser');
+    // ブラウザ環境でのみ初期化
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      
+      if (SpeechRecognition) {
+        this.recognition = new SpeechRecognition();
+        this.isSupported = true;
+        this.setupRecognition();
+      } else {
+        console.warn('Speech recognition not supported in this browser');
+      }
     }
   }
 
@@ -41,7 +44,7 @@ export class SpeechService {
   }
 
   public isAvailable(): boolean {
-    return this.isSupported;
+    return typeof window !== 'undefined' && this.isSupported;
   }
 
   public startListening(
@@ -129,7 +132,7 @@ export class SpeechSynthesisService {
   }
 
   public isAvailable(): boolean {
-    return 'speechSynthesis' in window;
+    return typeof window !== 'undefined' && 'speechSynthesis' in window;
   }
 
   public getAvailableVoices(): SpeechSynthesisVoice[] {

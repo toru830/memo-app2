@@ -15,7 +15,7 @@ export class AudioService {
   private isRecording: boolean = false;
 
   public isAvailable(): boolean {
-    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+    return typeof window !== 'undefined' && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
   }
 
   public async startRecording(): Promise<void> {
