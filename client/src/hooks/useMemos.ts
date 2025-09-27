@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Memo, CreateMemoData, UpdateMemoData, FilterOptions } from '../types';
 import { apiService } from '../services/api';
+import { localStorageService } from '../services/localStorage';
+
+// 本番環境（GitHub Pages）ではlocalStorageを使用
+const isProduction = process.env.NODE_ENV === 'production';
+const service = isProduction ? localStorageService : apiService;
 
 export const useMemos = (filters?: FilterOptions) => {
   const [memos, setMemos] = useState<Memo[]>([]);
@@ -11,7 +16,7 @@ export const useMemos = (filters?: FilterOptions) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await apiService.getMemos(filters);
+      const data = await service.getMemos(filters);
       setMemos(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch memos');
@@ -26,7 +31,7 @@ export const useMemos = (filters?: FilterOptions) => {
 
   const createMemo = useCallback(async (data: CreateMemoData) => {
     try {
-      await apiService.createMemo(data);
+      await service.createMemo(data);
       await fetchMemos(); // リストを再取得
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create memo');
@@ -36,7 +41,7 @@ export const useMemos = (filters?: FilterOptions) => {
 
   const updateMemo = useCallback(async (id: number, data: UpdateMemoData) => {
     try {
-      await apiService.updateMemo(id, data);
+      await service.updateMemo(id, data);
       setMemos(prev => 
         prev.map(memo => 
           memo.id === id 
@@ -52,7 +57,7 @@ export const useMemos = (filters?: FilterOptions) => {
 
   const deleteMemo = useCallback(async (id: number) => {
     try {
-      await apiService.deleteMemo(id);
+      await service.deleteMemo(id);
       setMemos(prev => prev.filter(memo => memo.id !== id));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete memo');

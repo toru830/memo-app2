@@ -8,6 +8,7 @@ import { MemoCard } from '../components/MemoCard';
 import { MemoForm } from '../components/MemoForm';
 import { FilterBar } from '../components/FilterBar';
 import { StatsCard } from '../components/StatsCard';
+import { DataManager } from '../components/DataManager';
 
 export const HomePage: React.FC = () => {
   const [filters, setFilters] = useState<FilterOptions>({});
@@ -17,7 +18,7 @@ export const HomePage: React.FC = () => {
 
   const { categories } = useCategories();
   const { tags } = useTags();
-  const { memos, loading, error, createMemo, updateMemo, deleteMemo, toggleComplete } = useMemos(filters);
+  const { memos, loading, error, createMemo, updateMemo, deleteMemo, toggleComplete, refetch } = useMemos(filters);
 
   // 検索フィルターを適用
   const filteredMemos = useMemo(() => {
@@ -119,6 +120,9 @@ export const HomePage: React.FC = () => {
 
         {/* 統計カード */}
         <StatsCard memos={memos} />
+
+        {/* データ管理 */}
+        <DataManager onDataChange={refetch} />
 
         {/* 検索バー */}
         <div className="mb-6">

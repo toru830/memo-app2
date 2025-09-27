@@ -1,6 +1,9 @@
 import { Memo, CreateMemoData, UpdateMemoData } from '../types';
 
-const API_BASE_URL = '/api';
+// GitHub Pages用の設定
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://your-username.github.io/memo-app/api' 
+  : '/api';
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
