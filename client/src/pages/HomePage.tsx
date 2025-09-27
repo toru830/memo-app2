@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, Mic } from 'lucide-react';
 import { Memo, CreateMemoData, UpdateMemoData, FilterOptions } from '../types';
 import { useMemos } from '../hooks/useMemos';
 import { useCategories } from '../hooks/useCategories';
@@ -9,11 +9,13 @@ import { MemoForm } from '../components/MemoForm';
 import { FilterBar } from '../components/FilterBar';
 import { StatsCard } from '../components/StatsCard';
 import { DataManager } from '../components/DataManager';
+import { VoiceInput } from '../components/VoiceInput';
 
 export const HomePage: React.FC = () => {
   const [filters, setFilters] = useState<FilterOptions>({});
   const [editingMemo, setEditingMemo] = useState<Memo | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [showVoiceInput, setShowVoiceInput] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const { categories } = useCategories();
@@ -109,13 +111,22 @@ export const HomePage: React.FC = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">メモアプリ</h1>
             <p className="text-gray-600">日々の考え、メモ、タスクを管理しましょう</p>
           </div>
-          <button
-            onClick={() => setShowForm(true)}
-            className="btn btn-primary flex items-center gap-2 mt-4 md:mt-0"
-          >
-            <Plus size={20} />
-            新しいメモ
-          </button>
+          <div className="flex gap-2 mt-4 md:mt-0">
+            <button
+              onClick={() => setShowVoiceInput(true)}
+              className="btn btn-secondary flex items-center gap-2"
+            >
+              <Mic size={20} />
+              音声入力
+            </button>
+            <button
+              onClick={() => setShowForm(true)}
+              className="btn btn-primary flex items-center gap-2"
+            >
+              <Plus size={20} />
+              新しいメモ
+            </button>
+          </div>
         </div>
 
         {/* 統計カード */}
@@ -200,6 +211,14 @@ export const HomePage: React.FC = () => {
             memo={editingMemo}
             onSave={handleUpdateMemo}
             onCancel={() => setEditingMemo(null)}
+          />
+        )}
+
+        {/* Voice Input Modal */}
+        {showVoiceInput && (
+          <VoiceInput
+            onMemoCreate={handleCreateMemo}
+            onClose={() => setShowVoiceInput(false)}
           />
         )}
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import { 
@@ -9,10 +9,15 @@ import {
   Edit, 
   Trash2, 
   Star,
-  FileText
+  FileText,
+  Mic,
+  Volume2
 } from 'lucide-react';
 import { Memo } from '../types';
 import { clsx } from 'clsx';
+import { VoicePlayer } from './VoicePlayer';
+import { AudioRecorder } from './AudioRecorder';
+import { audioService, AudioRecording } from '../services/audioService';
 
 interface MemoCardProps {
   memo: Memo;
@@ -27,8 +32,21 @@ export const MemoCard: React.FC<MemoCardProps> = ({
   onDelete,
   onToggleComplete,
 }) => {
+  const [showAudioRecorder, setShowAudioRecorder] = useState(false);
+  const [audioRecordings, setAudioRecordings] = useState<AudioRecording[]>([]);
+
   const handleToggleComplete = () => {
     onToggleComplete(memo.id, !memo.is_completed);
+  };
+
+  // Load audio recordings for this memo
+  React.useEffect(() => {
+    const recordings = audioService.getAudioRecordingsByMemoId(memo.id);
+    setAudioRecordings(recordings);
+  }, [memo.id]);
+
+  const handleRecordingSaved = (recording: AudioRecording) => {
+    setAudioRecordings(prev => [...prev, recording]);
   };
 
   const getPriorityColor = (priority: number) => {
@@ -133,6 +151,14 @@ export const MemoCard: React.FC<MemoCardProps> = ({
         </div>
 
         <div className="flex items-center gap-1">
+          {/* Audio recordings indicator */}
+          {audioRecordings.length > 0 && (
+            <div className="flex items-center gap-1 mr-2">
+              <Volume2 size={12} className="text-blue-500" />
+              <span className="text-xs text-blue-500">{audioRecordings.length}</span>
+            </div>
+          )}
+          
           <button
             onClick={() => onEdit(memo)}
             className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
@@ -140,6 +166,15 @@ export const MemoCard: React.FC<MemoCardProps> = ({
           >
             <Edit size={14} />
           </button>
+          
+          <button
+            onClick={() => setShowAudioRecorder(true)}
+            className="p-1 text-gray-400 hover:text-green-600 transition-colors"
+            title="音声録音"
+          >
+            <Mic size={14} />
+          </button>
+          
           <button
             onClick={() => onDelete(memo.id)}
             className="p-1 text-gray-400 hover:text-red-600 transition-colors"
@@ -149,6 +184,38 @@ export const MemoCard: React.FC<MemoCardProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Audio recordings list */}
+      {audioRecordings.length > 0 && (
+        <div className="mt-3 pt-3 border-t border-gray-200">
+          <div className="flex items-center gap-2 mb-2">
+            <Volume2 size={14} className="text-blue-500" />
+            <span className="text-sm font-medium text-gray-700">音声録音</span>
+          </div>
+          <div className="space-y-2">
+            {audioRecordings.map((recording) => (
+              <div key={recording.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                <div className="flex items-center gap-2">
+                  <VoicePlayer text={memo.title} size="sm" />
+                  <span className="text-xs text-gray-600">
+                    {format(new Date(recording.createdAt), 'HH:mm')} 
+                    ({Math.round(recording.duration)}s)
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Audio Recorder Modal */}
+      {showAudioRecorder && (
+        <AudioRecorder
+          memoId={memo.id}
+          onRecordingSaved={handleRecordingSaved}
+          onClose={() => setShowAudioRecorder(false)}
+        />
+      )}
     </div>
   );
 };
