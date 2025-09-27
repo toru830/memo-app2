@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  memo-app:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    volumes:
+      # データベースファイルを永続化
+      - ./server/database:/app/server/database
+      # データエクスポートを永続化
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # 開発用の設定（オプション）
+  memo-app-dev:
+    build: .
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    volumes:
+      - ./server:/app/server
+      - ./client:/app/client
+      - ./server/database:/app/server/database
+      - ./data:/app/data
+    command: ["npm", "run", "dev"]
+    profiles:
+      - dev
