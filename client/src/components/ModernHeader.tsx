@@ -4,9 +4,10 @@ import { Search, Bell, Settings, User } from 'lucide-react';
 interface ModernHeaderProps {
   onSearch: (term: string) => void;
   searchTerm: string;
+  onSettingsClick?: () => void;
 }
 
-export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm }) => {
+export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm, onSettingsClick }) => {
   return (
     <div className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-gray-800/50">
       <div className="px-4 py-4">
@@ -23,7 +24,10 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
             <button className="p-2 rounded-full hover:bg-gray-800 transition-colors">
               <Bell size={20} className="text-gray-400" />
             </button>
-            <button className="p-2 rounded-full hover:bg-gray-800 transition-colors">
+            <button 
+              onClick={onSettingsClick}
+              className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+            >
               <Settings size={20} className="text-gray-400" />
             </button>
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">

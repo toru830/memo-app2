@@ -8,10 +8,10 @@ import { MemoCard } from '../components/MemoCard';
 import { MemoForm } from '../components/MemoForm';
 // import { FilterBar } from '../components/FilterBar';
 import { StatsCard } from '../components/StatsCard';
-import { DataManager } from '../components/DataManager';
 import { VoiceInput } from '../components/VoiceInput';
 import { TabNavigation, TabType } from '../components/TabNavigation';
 import { ModernHeader } from '../components/ModernHeader';
+import { SettingsModal } from '../components/SettingsModal';
 
 export const HomePage: React.FC = () => {
   const [filters] = useState<FilterOptions>({});
@@ -21,6 +21,7 @@ export const HomePage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [quickCreateCategory, setQuickCreateCategory] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState(false);
 
   // const { categories } = useCategories();
   // const { tags } = useTags();
@@ -166,7 +167,11 @@ export const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
       {/* ヘッダー */}
-      <ModernHeader onSearch={setSearchTerm} searchTerm={searchTerm} />
+      <ModernHeader 
+        onSearch={setSearchTerm} 
+        searchTerm={searchTerm}
+        onSettingsClick={() => setShowSettings(true)}
+      />
       
       <div className="pb-24">
         {/* すべてタブの時のみ統計とクイックアクションを表示 */}
@@ -225,10 +230,6 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* データ管理 */}
-            <div className="px-4 mb-2">
-              <DataManager onDataChange={refetch} />
-            </div>
           </>
         )}
 
@@ -334,6 +335,14 @@ export const HomePage: React.FC = () => {
           <VoiceInput
             onMemoCreate={handleCreateMemo}
             onClose={() => setShowVoiceInput(false)}
+          />
+        )}
+
+        {/* Settings Modal */}
+        {showSettings && (
+          <SettingsModal
+            onClose={() => setShowSettings(false)}
+            onDataChange={refetch}
           />
         )}
       </div>
