@@ -80,16 +80,16 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+      <div className="bg-gray-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-700">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">
+            <h2 className="text-xl font-bold text-white">
               {memo ? 'メモを編集' : '新しいメモ'}
             </h2>
             <button
               onClick={onCancel}
-              className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+              className="p-2 text-gray-400 hover:text-gray-300 transition-colors"
             >
               <X size={20} />
             </button>
@@ -98,26 +98,27 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
           <form onSubmit={handleSubmit} className="space-y-4">
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 内容
               </label>
               <textarea
                 value={formData.content}
                 onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-                className="textarea h-32"
+                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                 placeholder="メモの詳細を入力"
+                rows={4}
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 mb-1">
                   カテゴリ
                 </label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                  className="input"
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                 >
                   <option value="買い物">🛒 買い物</option>
                   <option value="仕事">💼 仕事</option>
@@ -128,13 +129,13 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 mb-1">
                   優先度
                 </label>
                 <select
                   value={formData.priority}
                   onChange={(e) => setFormData(prev => ({ ...prev, priority: parseInt(e.target.value) }))}
-                  className="input"
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                 >
                   <option value={1}>低</option>
                   <option value={2}>中</option>
@@ -144,22 +145,19 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                タスクとして扱う
-              </label>
               <label className="flex items-center">
                 <input
                   type="checkbox"
                   checked={formData.is_task}
                   onChange={(e) => setFormData(prev => ({ ...prev, is_task: e.target.checked }))}
-                  className="rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  className="rounded border-gray-600 text-blue-600 focus:ring-blue-500 bg-gray-700"
                 />
-                <span className="ml-2 text-sm text-gray-700">タスクとして管理する</span>
+                <span className="ml-2 text-sm text-gray-300">タスクとして管理する</span>
               </label>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 タグ
               </label>
               <div className="flex gap-2 mb-2">
@@ -168,13 +166,13 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
                   value={tagInput}
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyPress={handleTagInputKeyPress}
-                  className="input flex-1"
+                  className="flex-1 p-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                   placeholder="タグを入力してEnterキーを押す"
                 />
                 <button
                   type="button"
                   onClick={addTag}
-                  className="btn btn-secondary px-3"
+                  className="px-4 py-3 bg-gray-600 hover:bg-gray-500 text-white rounded-xl transition-all duration-200"
                 >
                   <Plus size={16} />
                 </button>
@@ -183,13 +181,13 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
                 {formData.tags.map((tag, index) => (
                   <span
                     key={index}
-                    className="badge badge-primary flex items-center gap-1"
+                    className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-1"
                   >
                     {tag}
                     <button
                       type="button"
                       onClick={() => removeTag(tag)}
-                      className="ml-1 hover:text-red-600"
+                      className="ml-1 hover:text-red-400"
                     >
                       <Minus size={12} />
                     </button>
@@ -202,14 +200,14 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
               <button
                 type="submit"
                 disabled={loading || !formData.content.trim()}
-                className="btn btn-primary flex-1"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
               >
                 {loading ? '保存中...' : memo ? '更新' : '作成'}
               </button>
               <button
                 type="button"
                 onClick={onCancel}
-                className="btn btn-secondary px-6"
+                className="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white rounded-xl transition-all duration-200"
               >
                 キャンセル
               </button>

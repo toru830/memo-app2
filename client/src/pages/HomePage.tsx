@@ -117,8 +117,10 @@ export const HomePage: React.FC = () => {
   };
 
   const handleQuickCreate = (category: string, isTask: boolean) => {
+    console.log('Quick create clicked:', category, isTask);
     setQuickCreateCategory(category);
     setShowForm(true);
+    console.log('Form should be shown now');
   };
 
   if (loading) {
@@ -282,6 +284,15 @@ export const HomePage: React.FC = () => {
             }}
             initialCategory={quickCreateCategory}
           />
+        )}
+        
+        {/* デバッグ情報 */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="fixed top-20 right-4 bg-black/80 text-white p-2 rounded text-xs z-50">
+            <div>showForm: {showForm.toString()}</div>
+            <div>editingMemo: {editingMemo ? 'true' : 'false'}</div>
+            <div>quickCreateCategory: {quickCreateCategory || 'null'}</div>
+          </div>
         )}
 
         {editingMemo && (
