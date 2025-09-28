@@ -106,7 +106,7 @@ export const MemoCard: React.FC<MemoCardProps> = ({
           
           <div className="flex-1 min-w-0">
             <div className={clsx(
-              'font-semibold text-base truncate text-white',
+              'font-semibold text-base text-white whitespace-pre-wrap break-words',
               memo.is_completed && 'line-through text-gray-400'
             )}>
               {memo.content || 'メモ内容がありません'}
