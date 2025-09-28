@@ -3,10 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://toru830.github.io/memo-app/",
+  "homepage": ".",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && copy dist\\index.html dist\\404.html",
+    "build": "tsc && vite build && cp dist/index.html dist/404.html",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

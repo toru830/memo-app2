@@ -1,9 +1,7 @@
 import { Memo, CreateMemoData, UpdateMemoData } from '../types';
 
-// GitHub Pages用の設定
-const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://toru830.github.io/memo-app/api' 
-  : '/api';
+// Vercel用の設定（ローカルストレージを使用）
+const API_BASE_URL = '/api';
 
 class ApiService {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
