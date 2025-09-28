@@ -184,41 +184,42 @@ export const HomePage: React.FC = () => {
                   <Sparkles size={14} className="text-purple-400" />
                   <h2 className="text-sm font-semibold text-white">クイック作成</h2>
                 </div>
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleQuickCreate('買い物', false)}
-                    className="bg-gradient-to-br from-orange-600/20 to-orange-700/20 hover:from-orange-600/30 hover:to-orange-700/30 rounded-lg p-2 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-orange-500/20"
+                    className="bg-gradient-to-br from-orange-600/20 to-orange-700/20 hover:from-orange-600/30 hover:to-orange-700/30 rounded-lg p-2 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-orange-500/20"
                   >
-                    <div className="text-lg mb-1">🛒</div>
-                    <div className="text-xs font-medium text-orange-400">買い物</div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-lg">🛒</div>
+                      <div className="text-xs font-medium text-orange-400">買い物</div>
+                    </div>
                   </button>
                   <button
                     onClick={() => handleQuickCreate('仕事', true)}
-                    className="bg-gradient-to-br from-blue-600/20 to-blue-700/20 hover:from-blue-600/30 hover:to-blue-700/30 rounded-lg p-2 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-blue-500/20"
+                    className="bg-gradient-to-br from-blue-600/20 to-blue-700/20 hover:from-blue-600/30 hover:to-blue-700/30 rounded-lg p-2 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-blue-500/20"
                   >
-                    <div className="text-lg mb-1">💼</div>
-                    <div className="text-xs font-medium text-blue-400">仕事</div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-lg">💼</div>
+                      <div className="text-xs font-medium text-blue-400">仕事</div>
+                    </div>
                   </button>
                   <button
                     onClick={() => handleQuickCreate('プライベート', false)}
-                    className="bg-gradient-to-br from-green-600/20 to-green-700/20 hover:from-green-600/30 hover:to-green-700/30 rounded-lg p-2 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-green-500/20"
+                    className="bg-gradient-to-br from-green-600/20 to-green-700/20 hover:from-green-600/30 hover:to-green-700/30 rounded-lg p-2 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-green-500/20"
                   >
-                    <div className="text-lg mb-1">🏠</div>
-                    <div className="text-xs font-medium text-green-400">プライベート</div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-lg">🏠</div>
+                      <div className="text-xs font-medium text-green-400">プライベート</div>
+                    </div>
                   </button>
                   <button
                     onClick={() => handleQuickCreate('思い', false)}
-                    className="bg-gradient-to-br from-pink-600/20 to-pink-700/20 hover:from-pink-600/30 hover:to-pink-700/30 rounded-lg p-2 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-pink-500/20"
+                    className="bg-gradient-to-br from-pink-600/20 to-pink-700/20 hover:from-pink-600/30 hover:to-pink-700/30 rounded-lg p-2 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-pink-500/20"
                   >
-                    <div className="text-lg mb-1">💭</div>
-                    <div className="text-xs font-medium text-pink-400">思い</div>
-                  </button>
-                  <button
-                    onClick={() => handleQuickCreate('アイデア', false)}
-                    className="bg-gradient-to-br from-purple-600/20 to-purple-700/20 hover:from-purple-600/30 hover:to-purple-700/30 rounded-lg p-2 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-purple-500/20"
-                  >
-                    <div className="text-lg mb-1">💡</div>
-                    <div className="text-xs font-medium text-purple-400">アイデア</div>
+                    <div className="flex items-center gap-3">
+                      <div className="text-lg">💭</div>
+                      <div className="text-xs font-medium text-pink-400">思い</div>
+                    </div>
                   </button>
                 </div>
               </div>
