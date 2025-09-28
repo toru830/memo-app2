@@ -11,7 +11,6 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { audioService, AudioRecording } from '../services/audioService';
-import { speechService } from '../services/speechService';
 
 interface AudioRecorderProps {
   memoId: number;
@@ -32,7 +31,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   
-  const durationIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const durationIntervalRef = useRef<number | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
 
   const startRecording = async () => {
@@ -43,7 +42,7 @@ export const AudioRecorder: React.FC<AudioRecorderProps> = ({
       setRecordingDuration(0);
       
       // Start duration counter
-      durationIntervalRef.current = setInterval(() => {
+      durationIntervalRef.current = window.setInterval(() => {
         setRecordingDuration(prev => prev + 1);
       }, 1000);
     } catch (error) {

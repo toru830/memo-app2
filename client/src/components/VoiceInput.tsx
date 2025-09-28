@@ -4,15 +4,15 @@ import {
   MicOff, 
   Volume2, 
   VolumeX, 
-  Play, 
-  Pause, 
+  // Play,
+  // Pause,
   Square,
   AlertCircle,
   CheckCircle,
   Clock
 } from 'lucide-react';
 import { speechService, speechSynthesisService, SpeechRecognitionResult } from '../services/speechService';
-import { Memo, CreateMemoData } from '../types';
+import { CreateMemoData } from '../types';
 
 interface VoiceInputProps {
   onMemoCreate: (memo: CreateMemoData) => void;

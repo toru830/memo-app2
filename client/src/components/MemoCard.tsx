@@ -9,7 +9,7 @@ import {
   Edit, 
   Trash2, 
   Star,
-  FileText,
+  // FileText,
   Mic,
   Volume2
 } from 'lucide-react';

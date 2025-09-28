@@ -2,7 +2,7 @@ import { Memo, CreateMemoData, UpdateMemoData } from '../types';
 
 // GitHub Pages用の設定
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://your-username.github.io/memo-app/api' 
+  ? 'https://toru830.github.io/memo-app/api' 
   : '/api';
 
 class ApiService {

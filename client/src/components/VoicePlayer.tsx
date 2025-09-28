@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Pause, Square, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, Square } from 'lucide-react';
 import { speechSynthesisService } from '../services/speechService';
 
 interface VoicePlayerProps {

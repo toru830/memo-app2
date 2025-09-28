@@ -34,12 +34,18 @@ export const HomePage: React.FC = () => {
     );
   }, [memos, searchTerm]);
 
-  const handleCreateMemo = async (data: CreateMemoData) => {
+  const handleCreateMemo = async (data: CreateMemoData | UpdateMemoData) => {
     try {
-      await createMemo(data);
+      if ('id' in data) {
+        // Update memo
+        await updateMemo(data.id as number, data);
+      } else {
+        // Create memo
+        await createMemo(data as CreateMemoData);
+      }
       setShowForm(false);
     } catch (error) {
-      console.error('Failed to create memo:', error);
+      console.error('Failed to save memo:', error);
     }
   };
 

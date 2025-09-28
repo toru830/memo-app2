@@ -6,19 +6,20 @@
   "homepage": "https://toru830.github.io/memo-app/",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && cp dist/index.html dist/404.html",
+    "build": "tsc && vite build && copy dist\\index.html dist\\404.html",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.1",
-    "lucide-react": "^0.294.0",
-    "date-fns": "^2.30.0",
-    "clsx": "^2.0.0"
+    "react-router-dom": "^6.20.1"
   },
   "devDependencies": {
+    "@types/node": "^24.5.2",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^6.10.0",

@@ -13,7 +13,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   filters,
   onFiltersChange,
   categories,
-  tags,
+  // tags,
 }) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 

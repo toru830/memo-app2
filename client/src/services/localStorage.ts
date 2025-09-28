@@ -159,7 +159,7 @@ export class LocalStorageService {
         };
         importedMemos.push(memo);
       } catch (error) {
-        errors.push({ index, error: error.message });
+        errors.push({ index, error: (error as Error).message });
       }
     });
 
