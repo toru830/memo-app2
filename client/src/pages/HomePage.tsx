@@ -28,24 +28,31 @@ export const HomePage: React.FC = () => {
   // タブと検索フィルターを適用
   const filteredMemos = useMemo(() => {
     let filtered = memos;
+    
+    console.log('Active tab:', activeTab);
+    console.log('Total memos:', memos.length);
 
     // タブによるフィルタリング
     switch (activeTab) {
       case 'tasks':
         filtered = filtered.filter(memo => memo.is_task);
+        console.log('Filtered tasks:', filtered.length);
         break;
       case 'ideas':
         filtered = filtered.filter(memo => memo.category === 'アイデア');
+        console.log('Filtered ideas:', filtered.length);
         break;
       case 'shopping':
         filtered = filtered.filter(memo => memo.category === '買い物');
+        console.log('Filtered shopping:', filtered.length);
         break;
       case 'thoughts':
         filtered = filtered.filter(memo => memo.category === '思い');
+        console.log('Filtered thoughts:', filtered.length);
         break;
       case 'all':
       default:
-        // すべて表示
+        console.log('Showing all memos:', filtered.length);
         break;
     }
 

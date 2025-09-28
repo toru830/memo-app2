@@ -135,6 +135,11 @@ export const MemoCard: React.FC<MemoCardProps> = ({
 
 
       <div className="flex flex-wrap items-center gap-2 mb-3">
+        {memo.is_task && (
+          <span className="px-2 py-1 rounded-full text-xs font-medium border bg-green-600/20 border-green-500/20 text-green-400">
+            📋 タスク
+          </span>
+        )}
         {memo.category && memo.category !== 'general' && (
           <span className={clsx(
             'px-2 py-1 rounded-full text-xs font-medium border',
