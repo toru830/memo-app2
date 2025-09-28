@@ -28,31 +28,24 @@ export const HomePage: React.FC = () => {
   // タブと検索フィルターを適用
   const filteredMemos = useMemo(() => {
     let filtered = memos;
-    
-    console.log('Active tab:', activeTab);
-    console.log('Total memos:', memos.length);
 
     // タブによるフィルタリング
     switch (activeTab) {
       case 'tasks':
         filtered = filtered.filter(memo => memo.is_task);
-        console.log('Filtered tasks:', filtered.length);
         break;
       case 'ideas':
         filtered = filtered.filter(memo => memo.category === 'アイデア');
-        console.log('Filtered ideas:', filtered.length);
         break;
       case 'shopping':
         filtered = filtered.filter(memo => memo.category === '買い物');
-        console.log('Filtered shopping:', filtered.length);
         break;
       case 'thoughts':
         filtered = filtered.filter(memo => memo.category === '思い');
-        console.log('Filtered thoughts:', filtered.length);
         break;
       case 'all':
       default:
-        console.log('Showing all memos:', filtered.length);
+        // すべて表示
         break;
     }
 
@@ -158,71 +151,91 @@ export const HomePage: React.FC = () => {
       <ModernHeader onSearch={setSearchTerm} searchTerm={searchTerm} />
       
       <div className="pb-24">
-        {/* 統計カード */}
-        <div className="px-4 py-6">
-          <StatsCard memos={memos} />
-        </div>
-
-        {/* クイックアクション */}
-        <div className="px-4 mb-6">
-          <div className="bg-gray-800/70 backdrop-blur-sm rounded-3xl p-6 border border-gray-700/20 shadow-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <Sparkles size={20} className="text-purple-400" />
-              <h2 className="text-lg font-semibold text-white">クイック作成</h2>
+        {/* すべてタブの時のみ統計とクイックアクションを表示 */}
+        {activeTab === 'all' && (
+          <>
+            {/* 統計カード */}
+            <div className="px-4 py-6">
+              <StatsCard memos={memos} />
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <button
-                onClick={() => handleCreateMemo({ content: '', category: '買い物', tags: [], is_task: false, is_completed: false })}
-                className="bg-gradient-to-br from-orange-600/20 to-orange-700/20 hover:from-orange-600/30 hover:to-orange-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-orange-500/20"
-              >
-                <div className="text-2xl mb-2">🛒</div>
-                <div className="text-sm font-medium text-orange-400">買い物</div>
-              </button>
-              <button
-                onClick={() => handleCreateMemo({ content: '', category: '仕事', tags: [], is_task: true, is_completed: false })}
-                className="bg-gradient-to-br from-blue-600/20 to-blue-700/20 hover:from-blue-600/30 hover:to-blue-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-blue-500/20"
-              >
-                <div className="text-2xl mb-2">💼</div>
-                <div className="text-sm font-medium text-blue-400">仕事</div>
-              </button>
-              <button
-                onClick={() => handleCreateMemo({ content: '', category: 'プライベート', tags: [], is_task: false, is_completed: false })}
-                className="bg-gradient-to-br from-green-600/20 to-green-700/20 hover:from-green-600/30 hover:to-green-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-green-500/20"
-              >
-                <div className="text-2xl mb-2">🏠</div>
-                <div className="text-sm font-medium text-green-400">プライベート</div>
-              </button>
-              <button
-                onClick={() => handleCreateMemo({ content: '', category: '思い', tags: [], is_task: false, is_completed: false })}
-                className="bg-gradient-to-br from-pink-600/20 to-pink-700/20 hover:from-pink-600/30 hover:to-pink-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-pink-500/20"
-              >
-                <div className="text-2xl mb-2">💭</div>
-                <div className="text-sm font-medium text-pink-400">思い</div>
-              </button>
-            </div>
-          </div>
-        </div>
 
-        {/* データ管理 */}
-        <div className="px-4 mb-6">
-          <DataManager onDataChange={refetch} />
-        </div>
+            {/* クイックアクション */}
+            <div className="px-4 mb-6">
+              <div className="bg-gray-800/70 backdrop-blur-sm rounded-3xl p-6 border border-gray-700/20 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <Sparkles size={20} className="text-purple-400" />
+                  <h2 className="text-lg font-semibold text-white">クイック作成</h2>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <button
+                    onClick={() => handleCreateMemo({ content: '', category: '買い物', tags: [], is_task: false, is_completed: false })}
+                    className="bg-gradient-to-br from-orange-600/20 to-orange-700/20 hover:from-orange-600/30 hover:to-orange-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-orange-500/20"
+                  >
+                    <div className="text-2xl mb-2">🛒</div>
+                    <div className="text-sm font-medium text-orange-400">買い物</div>
+                  </button>
+                  <button
+                    onClick={() => handleCreateMemo({ content: '', category: '仕事', tags: [], is_task: true, is_completed: false })}
+                    className="bg-gradient-to-br from-blue-600/20 to-blue-700/20 hover:from-blue-600/30 hover:to-blue-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-blue-500/20"
+                  >
+                    <div className="text-2xl mb-2">💼</div>
+                    <div className="text-sm font-medium text-blue-400">仕事</div>
+                  </button>
+                  <button
+                    onClick={() => handleCreateMemo({ content: '', category: 'プライベート', tags: [], is_task: false, is_completed: false })}
+                    className="bg-gradient-to-br from-green-600/20 to-green-700/20 hover:from-green-600/30 hover:to-green-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-green-500/20"
+                  >
+                    <div className="text-2xl mb-2">🏠</div>
+                    <div className="text-sm font-medium text-green-400">プライベート</div>
+                  </button>
+                  <button
+                    onClick={() => handleCreateMemo({ content: '', category: '思い', tags: [], is_task: false, is_completed: false })}
+                    className="bg-gradient-to-br from-pink-600/20 to-pink-700/20 hover:from-pink-600/30 hover:to-pink-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-pink-500/20"
+                  >
+                    <div className="text-2xl mb-2">💭</div>
+                    <div className="text-sm font-medium text-pink-400">思い</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* データ管理 */}
+            <div className="px-4 mb-6">
+              <DataManager onDataChange={refetch} />
+            </div>
+          </>
+        )}
 
         {/* メモ一覧 */}
         <div className="px-4">
+          {/* タブタイトル */}
+          {activeTab !== 'all' && (
+            <div className="mb-6">
+              <h2 className="text-xl font-bold text-white mb-2">
+                {activeTab === 'tasks' && '📋 タスク'}
+                {activeTab === 'ideas' && '💡 アイデア'}
+                {activeTab === 'shopping' && '🛒 買い物'}
+                {activeTab === 'thoughts' && '💭 思い'}
+              </h2>
+              <p className="text-gray-400 text-sm">
+                {filteredMemos.length}件のメモ
+              </p>
+            </div>
+          )}
+
           {filteredMemos.length === 0 ? (
             <div className="text-center py-16">
-              <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-sm">
+              <div className="bg-gray-800/70 backdrop-blur-sm rounded-3xl p-8 border border-gray-700/20 shadow-sm">
                 <div className="text-gray-400 mb-4">
                   <Plus size={48} className="mx-auto" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                <h3 className="text-lg font-medium text-white mb-2">
                   {searchTerm || activeTab !== 'all'
                     ? '該当するメモがありません' 
                     : 'まだメモがありません'
                   }
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-400 mb-6">
                   {searchTerm || activeTab !== 'all'
                     ? '検索条件を変更してみてください'
                     : '最初のメモを作成しましょう'
