@@ -112,25 +112,59 @@ export const HomePage: React.FC = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         {/* ヘッダー */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">メモアプリ</h1>
-            <p className="text-gray-600">日々の考え、メモ、タスクを管理しましょう</p>
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">📝 メモアプリ</h1>
+              <p className="text-gray-600">日々の考え、メモ、タスクを管理しましょう</p>
+            </div>
+            <div className="flex gap-2 mt-4 md:mt-0">
+              <button
+                onClick={() => setShowVoiceInput(true)}
+                className="btn btn-secondary flex items-center gap-2"
+              >
+                <Mic size={20} />
+                🎤 音声入力
+              </button>
+              <button
+                onClick={() => setShowForm(true)}
+                className="btn btn-primary flex items-center gap-2"
+              >
+                <Plus size={20} />
+                ✏️ 新しいメモ
+              </button>
+            </div>
           </div>
-          <div className="flex gap-2 mt-4 md:mt-0">
+
+          {/* クイックアクション */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             <button
-              onClick={() => setShowVoiceInput(true)}
-              className="btn btn-secondary flex items-center gap-2"
+              onClick={() => handleCreateMemo({ title: '📝 メモ', content: '', category: 'メモ', tags: [], is_task: false, is_completed: false })}
+              className="bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg p-4 text-center transition-colors"
             >
-              <Mic size={20} />
-              音声入力
+              <div className="text-2xl mb-2">📝</div>
+              <div className="text-sm font-medium text-blue-800">クイックメモ</div>
             </button>
             <button
-              onClick={() => setShowForm(true)}
-              className="btn btn-primary flex items-center gap-2"
+              onClick={() => handleCreateMemo({ title: '✅ タスク', content: '', category: 'タスク', tags: [], is_task: true, is_completed: false })}
+              className="bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg p-4 text-center transition-colors"
             >
-              <Plus size={20} />
-              新しいメモ
+              <div className="text-2xl mb-2">✅</div>
+              <div className="text-sm font-medium text-green-800">新しいタスク</div>
+            </button>
+            <button
+              onClick={() => handleCreateMemo({ title: '💡 アイデア', content: '', category: 'アイデア', tags: [], is_task: false, is_completed: false })}
+              className="bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 rounded-lg p-4 text-center transition-colors"
+            >
+              <div className="text-2xl mb-2">💡</div>
+              <div className="text-sm font-medium text-yellow-800">アイデア</div>
+            </button>
+            <button
+              onClick={() => setShowVoiceInput(true)}
+              className="bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg p-4 text-center transition-colors"
+            >
+              <div className="text-2xl mb-2">🎤</div>
+              <div className="text-sm font-medium text-purple-800">音声入力</div>
             </button>
           </div>
         </div>
@@ -227,6 +261,24 @@ export const HomePage: React.FC = () => {
             onClose={() => setShowVoiceInput(false)}
           />
         )}
+
+        {/* フローティングアクションボタン（モバイル用） */}
+        <div className="fixed bottom-6 right-6 md:hidden">
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => setShowVoiceInput(true)}
+              className="bg-purple-500 hover:bg-purple-600 text-white rounded-full p-4 shadow-lg transition-colors"
+            >
+              <Mic size={24} />
+            </button>
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-4 shadow-lg transition-colors"
+            >
+              <Plus size={24} />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

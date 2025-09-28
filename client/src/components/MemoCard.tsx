@@ -67,10 +67,24 @@ export const MemoCard: React.FC<MemoCardProps> = ({
     }
   };
 
+  // カテゴリ別の色設定
+  const getCategoryColor = (category: string) => {
+    const colors: { [key: string]: string } = {
+      'メモ': 'bg-blue-50 border-blue-200 text-blue-800',
+      'タスク': 'bg-green-50 border-green-200 text-green-800',
+      'アイデア': 'bg-yellow-50 border-yellow-200 text-yellow-800',
+      '重要': 'bg-red-50 border-red-200 text-red-800',
+      'プロジェクト': 'bg-purple-50 border-purple-200 text-purple-800',
+      'その他': 'bg-gray-50 border-gray-200 text-gray-800'
+    };
+    return colors[category] || colors['その他'];
+  };
+
   return (
     <div className={clsx(
-      'card transition-all duration-200 hover:shadow-md',
-      memo.is_completed && 'opacity-75'
+      'bg-white rounded-xl shadow-sm border-2 p-6 transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer',
+      memo.is_completed && 'opacity-60 bg-gray-50',
+      !memo.is_completed && 'hover:border-blue-300'
     )}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 flex-1">
@@ -129,7 +143,10 @@ export const MemoCard: React.FC<MemoCardProps> = ({
 
       <div className="flex flex-wrap items-center gap-2 mb-3">
         {memo.category && memo.category !== 'general' && (
-          <span className="badge badge-secondary text-xs">
+          <span className={clsx(
+            'px-2 py-1 rounded-full text-xs font-medium border',
+            getCategoryColor(memo.category)
+          )}>
             {memo.category}
           </span>
         )}
