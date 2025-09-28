@@ -82,9 +82,9 @@ export const MemoCard: React.FC<MemoCardProps> = ({
 
   return (
     <div className={clsx(
-      'bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 transition-all duration-300 hover:shadow-2xl hover:scale-105 cursor-pointer hover:bg-white/90',
-      memo.is_completed && 'opacity-60 bg-gray-50/80',
-      !memo.is_completed && 'hover:border-blue-300/50'
+      'bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-700/20 p-6 transition-all duration-300 hover:shadow-2xl hover:scale-105 cursor-pointer hover:bg-gray-700/90',
+      memo.is_completed && 'opacity-60 bg-gray-900/80',
+      !memo.is_completed && 'hover:border-blue-500/50'
     )}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 flex-1">
@@ -106,8 +106,8 @@ export const MemoCard: React.FC<MemoCardProps> = ({
           
           <div className="flex-1 min-w-0">
             <div className={clsx(
-              'font-semibold text-lg truncate',
-              memo.is_completed && 'line-through text-gray-500'
+              'font-semibold text-lg truncate text-white',
+              memo.is_completed && 'line-through text-gray-400'
             )}>
               {memo.content || 'メモ内容がありません'}
             </div>
