@@ -30,7 +30,9 @@ jobs:
         cache: 'npm'
         
     - name: Install dependencies
-      run: npm run install:all
+      run: |
+        cd client
+        npm ci
       
     - name: Build client
       run: |
@@ -38,12 +40,12 @@ jobs:
         npm run build
         
     - name: Setup Pages
-      uses: actions/configure-pages@v4
+      uses: actions/configure-pages@v5
       
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: './client/dist'
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: './client/dist'
 
   deploy:
     environment:
