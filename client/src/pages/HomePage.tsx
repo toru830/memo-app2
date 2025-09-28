@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Plus, Search, Mic } from 'lucide-react';
+import { Plus, Search, Mic, Sparkles } from 'lucide-react';
 import { Memo, CreateMemoData, UpdateMemoData, FilterOptions } from '../types';
 import { useMemos } from '../hooks/useMemos';
 import { useCategories } from '../hooks/useCategories';
@@ -10,6 +10,8 @@ import { FilterBar } from '../components/FilterBar';
 import { StatsCard } from '../components/StatsCard';
 import { DataManager } from '../components/DataManager';
 import { VoiceInput } from '../components/VoiceInput';
+import { TabNavigation, TabType } from '../components/TabNavigation';
+import { ModernHeader } from '../components/ModernHeader';
 
 export const HomePage: React.FC = () => {
   const [filters, setFilters] = useState<FilterOptions>({});
@@ -17,22 +19,48 @@ export const HomePage: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [showVoiceInput, setShowVoiceInput] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeTab, setActiveTab] = useState<TabType>('all');
 
   const { categories } = useCategories();
   const { tags } = useTags();
   const { memos, loading, error, createMemo, updateMemo, deleteMemo, toggleComplete, refetch } = useMemos(filters);
 
-  // 検索フィルターを適用
+  // タブと検索フィルターを適用
   const filteredMemos = useMemo(() => {
-    if (!searchTerm) return memos;
-    
-    const term = searchTerm.toLowerCase();
-    return memos.filter(memo => 
-      memo.content.toLowerCase().includes(term) ||
-      memo.category.toLowerCase().includes(term) ||
-      memo.tags.some(tag => tag.toLowerCase().includes(term))
-    );
-  }, [memos, searchTerm]);
+    let filtered = memos;
+
+    // タブによるフィルタリング
+    switch (activeTab) {
+      case 'tasks':
+        filtered = filtered.filter(memo => memo.is_task);
+        break;
+      case 'ideas':
+        filtered = filtered.filter(memo => memo.category === 'アイデア');
+        break;
+      case 'shopping':
+        filtered = filtered.filter(memo => memo.category === '買い物');
+        break;
+      case 'thoughts':
+        filtered = filtered.filter(memo => memo.category === '思い');
+        break;
+      case 'all':
+      default:
+        // すべて表示
+        break;
+    }
+
+    // 検索フィルター
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(memo => 
+        memo.content.toLowerCase().includes(term) ||
+        memo.category.toLowerCase().includes(term) ||
+        memo.tags.some(tag => tag.toLowerCase().includes(term))
+      );
+    }
+
+    return filtered;
+  }, [memos, searchTerm, activeTab]);
 
   const handleCreateMemo = async (data: CreateMemoData | UpdateMemoData) => {
     try {
@@ -78,6 +106,15 @@ export const HomePage: React.FC = () => {
     }
   };
 
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    if (tab === 'add') {
+      setShowForm(true);
+    } else if (tab === 'voice') {
+      setShowVoiceInput(true);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -109,143 +146,105 @@ export const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* ヘッダー */}
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                ✨ メモアプリ
-              </h1>
-              <p className="text-gray-600 text-lg">日々の考え、メモ、タスクを管理しましょう</p>
-            </div>
-            <div className="flex gap-3 mt-4 md:mt-0">
-              <button
-                onClick={() => setShowVoiceInput(true)}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-medium flex items-center gap-2 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                <Mic size={20} />
-                🎤 音声入力
-              </button>
-              <button
-                onClick={() => setShowForm(true)}
-                className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-6 py-3 rounded-xl font-medium flex items-center gap-2 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
-              >
-                <Plus size={20} />
-                ✏️ 新しいメモ
-              </button>
-            </div>
-          </div>
-
-          {/* クイックアクション */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-            <button
-              onClick={() => handleCreateMemo({ content: '', category: '買い物', tags: [], is_task: false, is_completed: false })}
-              className="bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
-            >
-              <div className="text-2xl mb-2">🛒</div>
-              <div className="text-sm font-medium text-orange-800">買い物</div>
-            </button>
-            <button
-              onClick={() => handleCreateMemo({ content: '', category: '仕事', tags: [], is_task: true, is_completed: false })}
-              className="bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
-            >
-              <div className="text-2xl mb-2">💼</div>
-              <div className="text-sm font-medium text-blue-800">仕事</div>
-            </button>
-            <button
-              onClick={() => handleCreateMemo({ content: '', category: 'プライベート', tags: [], is_task: false, is_completed: false })}
-              className="bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
-            >
-              <div className="text-2xl mb-2">🏠</div>
-              <div className="text-sm font-medium text-green-800">プライベート</div>
-            </button>
-            <button
-              onClick={() => handleCreateMemo({ content: '', category: '思い', tags: [], is_task: false, is_completed: false })}
-              className="bg-pink-50 hover:bg-pink-100 border border-pink-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
-            >
-              <div className="text-2xl mb-2">💭</div>
-              <div className="text-sm font-medium text-pink-800">思い</div>
-            </button>
-            <button
-              onClick={() => setShowVoiceInput(true)}
-              className="bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
-            >
-              <div className="text-2xl mb-2">🎤</div>
-              <div className="text-sm font-medium text-purple-800">音声入力</div>
-            </button>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* ヘッダー */}
+      <ModernHeader onSearch={setSearchTerm} searchTerm={searchTerm} />
+      
+      <div className="pb-24">
+        {/* 統計カード */}
+        <div className="px-4 py-6">
+          <StatsCard memos={memos} />
         </div>
 
-        {/* 統計カード */}
-        <StatsCard memos={memos} />
+        {/* クイックアクション */}
+        <div className="px-4 mb-6">
+          <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-6 border border-white/20 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <Sparkles size={20} className="text-purple-600" />
+              <h2 className="text-lg font-semibold text-gray-900">クイック作成</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <button
+                onClick={() => handleCreateMemo({ content: '', category: '買い物', tags: [], is_task: false, is_completed: false })}
+                className="bg-gradient-to-br from-orange-100 to-orange-200 hover:from-orange-200 hover:to-orange-300 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+              >
+                <div className="text-2xl mb-2">🛒</div>
+                <div className="text-sm font-medium text-orange-800">買い物</div>
+              </button>
+              <button
+                onClick={() => handleCreateMemo({ content: '', category: '仕事', tags: [], is_task: true, is_completed: false })}
+                className="bg-gradient-to-br from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+              >
+                <div className="text-2xl mb-2">💼</div>
+                <div className="text-sm font-medium text-blue-800">仕事</div>
+              </button>
+              <button
+                onClick={() => handleCreateMemo({ content: '', category: 'プライベート', tags: [], is_task: false, is_completed: false })}
+                className="bg-gradient-to-br from-green-100 to-green-200 hover:from-green-200 hover:to-green-300 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+              >
+                <div className="text-2xl mb-2">🏠</div>
+                <div className="text-sm font-medium text-green-800">プライベート</div>
+              </button>
+              <button
+                onClick={() => handleCreateMemo({ content: '', category: '思い', tags: [], is_task: false, is_completed: false })}
+                className="bg-gradient-to-br from-pink-100 to-pink-200 hover:from-pink-200 hover:to-pink-300 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+              >
+                <div className="text-2xl mb-2">💭</div>
+                <div className="text-sm font-medium text-pink-800">思い</div>
+              </button>
+            </div>
+          </div>
+        </div>
 
         {/* データ管理 */}
-        <DataManager onDataChange={refetch} />
-
-        {/* 検索バー */}
-        <div className="mb-6">
-          <div className="relative max-w-md">
-            <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="input pl-10"
-              placeholder="メモを検索..."
-            />
-          </div>
+        <div className="px-4 mb-6">
+          <DataManager onDataChange={refetch} />
         </div>
 
-        {/* フィルターバー */}
-        <FilterBar
-          filters={filters}
-          onFiltersChange={setFilters}
-          categories={categories}
-          tags={tags}
-        />
-
         {/* メモ一覧 */}
-        {filteredMemos.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <Plus size={48} className="mx-auto" />
+        <div className="px-4">
+          {filteredMemos.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-sm">
+                <div className="text-gray-400 mb-4">
+                  <Plus size={48} className="mx-auto" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  {searchTerm || activeTab !== 'all'
+                    ? '該当するメモがありません' 
+                    : 'まだメモがありません'
+                  }
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  {searchTerm || activeTab !== 'all'
+                    ? '検索条件を変更してみてください'
+                    : '最初のメモを作成しましょう'
+                  }
+                </p>
+                {(!searchTerm && activeTab === 'all') && (
+                  <button
+                    onClick={() => setShowForm(true)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-xl font-medium transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    メモを作成
+                  </button>
+                )}
+              </div>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {searchTerm || Object.keys(filters).length > 0 
-                ? '該当するメモがありません' 
-                : 'まだメモがありません'
-              }
-            </h3>
-            <p className="text-gray-600 mb-4">
-              {searchTerm || Object.keys(filters).length > 0
-                ? '検索条件を変更してみてください'
-                : '最初のメモを作成しましょう'
-              }
-            </p>
-            {(!searchTerm && Object.keys(filters).length === 0) && (
-              <button
-                onClick={() => setShowForm(true)}
-                className="btn btn-primary"
-              >
-                メモを作成
-              </button>
-            )}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredMemos.map((memo) => (
-              <MemoCard
-                key={memo.id}
-                memo={memo}
-                onEdit={setEditingMemo}
-                onDelete={handleDeleteMemo}
-                onToggleComplete={handleToggleComplete}
-              />
-            ))}
-          </div>
-        )}
+          ) : (
+            <div className="space-y-4">
+              {filteredMemos.map((memo) => (
+                <MemoCard
+                  key={memo.id}
+                  memo={memo}
+                  onEdit={setEditingMemo}
+                  onDelete={handleDeleteMemo}
+                  onToggleComplete={handleToggleComplete}
+                />
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* フォームモーダル */}
         {showForm && (
@@ -270,25 +269,10 @@ export const HomePage: React.FC = () => {
             onClose={() => setShowVoiceInput(false)}
           />
         )}
-
-        {/* フローティングアクションボタン（モバイル用） */}
-        <div className="fixed bottom-6 right-6 md:hidden">
-          <div className="flex flex-col gap-3">
-            <button
-              onClick={() => setShowVoiceInput(true)}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-110"
-            >
-              <Mic size={24} />
-            </button>
-            <button
-              onClick={() => setShowForm(true)}
-              className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-110"
-            >
-              <Plus size={24} />
-            </button>
-          </div>
-        </div>
       </div>
+
+      {/* タブナビゲーション */}
+      <TabNavigation activeTab={activeTab} onTabChange={handleTabChange} />
     </div>
   );
 };

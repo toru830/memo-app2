@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, CheckCircle, Clock, Star } from 'lucide-react';
+import { FileText, CheckCircle, Clock, Star, Target, TrendingUp } from 'lucide-react';
 import { Memo } from '../types';
 
 interface StatsCardProps {
@@ -72,16 +72,16 @@ export const StatsCard: React.FC<StatsCardProps> = ({ memos }) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
       {statItems.map((item, index) => (
-        <div key={index} className="card">
-          <div className="flex items-center">
-            <div className={`p-2 rounded-lg ${item.bgColor}`}>
-              <item.icon size={20} className={item.color} />
-            </div>
-            <div className="ml-3">
+        <div key={index} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-white/20 shadow-sm hover:shadow-md transition-all duration-200">
+          <div className="flex items-center justify-between">
+            <div>
               <p className="text-2xl font-bold text-gray-900">{item.value}</p>
-              <p className="text-sm text-gray-500">{item.label}</p>
+              <p className="text-sm text-gray-600 font-medium">{item.label}</p>
+            </div>
+            <div className={`p-3 rounded-xl ${item.bgColor}`}>
+              <item.icon size={20} className={item.color} />
             </div>
           </div>
         </div>
