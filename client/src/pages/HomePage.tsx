@@ -63,6 +63,16 @@ export const HomePage: React.FC = () => {
     return filtered;
   }, [memos, searchTerm, activeTab]);
 
+  // Calculate counts for current tab
+  const tabCounts = useMemo(() => {
+    const currentMemos = filteredMemos;
+    const totalCount = currentMemos.length;
+    const pendingCount = currentMemos.filter(memo => memo.is_task && !memo.is_completed).length;
+    const completedCount = currentMemos.filter(memo => memo.is_task && memo.is_completed).length;
+    
+    return { totalCount, pendingCount, completedCount };
+  }, [filteredMemos]);
+
   const handleCreateMemo = async (data: CreateMemoData | UpdateMemoData) => {
     try {
       if ('id' in data) {
@@ -163,42 +173,42 @@ export const HomePage: React.FC = () => {
         {activeTab === 'all' && (
           <>
             {/* 統計カード */}
-            <div className="px-4 py-6">
+            <div className="px-4 py-4">
               <StatsCard memos={memos} />
             </div>
 
             {/* クイックアクション */}
-            <div className="px-4 mb-6">
-              <div className="bg-gray-800/70 backdrop-blur-sm rounded-3xl p-6 border border-gray-700/20 shadow-sm">
-                <div className="flex items-center gap-3 mb-4">
-                  <Sparkles size={20} className="text-purple-400" />
-                  <h2 className="text-lg font-semibold text-white">クイック作成</h2>
+            <div className="px-4 mb-4">
+              <div className="bg-gray-800/70 backdrop-blur-sm rounded-2xl p-4 border border-gray-700/20 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles size={16} className="text-purple-400" />
+                  <h2 className="text-base font-semibold text-white">クイック作成</h2>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   <button
                     onClick={() => handleQuickCreate('買い物', false)}
-                    className="bg-gradient-to-br from-orange-600/20 to-orange-700/20 hover:from-orange-600/30 hover:to-orange-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-orange-500/20"
+                    className="bg-gradient-to-br from-orange-600/20 to-orange-700/20 hover:from-orange-600/30 hover:to-orange-700/30 rounded-xl p-3 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-orange-500/20"
                   >
                     <div className="text-2xl mb-2">🛒</div>
                     <div className="text-sm font-medium text-orange-400">買い物</div>
                   </button>
                   <button
                     onClick={() => handleQuickCreate('仕事', true)}
-                    className="bg-gradient-to-br from-blue-600/20 to-blue-700/20 hover:from-blue-600/30 hover:to-blue-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-blue-500/20"
+                    className="bg-gradient-to-br from-blue-600/20 to-blue-700/20 hover:from-blue-600/30 hover:to-blue-700/30 rounded-xl p-3 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-blue-500/20"
                   >
                     <div className="text-2xl mb-2">💼</div>
                     <div className="text-sm font-medium text-blue-400">仕事</div>
                   </button>
                   <button
                     onClick={() => handleQuickCreate('プライベート', false)}
-                    className="bg-gradient-to-br from-green-600/20 to-green-700/20 hover:from-green-600/30 hover:to-green-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-green-500/20"
+                    className="bg-gradient-to-br from-green-600/20 to-green-700/20 hover:from-green-600/30 hover:to-green-700/30 rounded-xl p-3 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-green-500/20"
                   >
                     <div className="text-2xl mb-2">🏠</div>
                     <div className="text-sm font-medium text-green-400">プライベート</div>
                   </button>
                   <button
                     onClick={() => handleQuickCreate('思い', false)}
-                    className="bg-gradient-to-br from-pink-600/20 to-pink-700/20 hover:from-pink-600/30 hover:to-pink-700/30 rounded-2xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-pink-500/20"
+                    className="bg-gradient-to-br from-pink-600/20 to-pink-700/20 hover:from-pink-600/30 hover:to-pink-700/30 rounded-xl p-3 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-pink-500/20"
                   >
                     <div className="text-2xl mb-2">💭</div>
                     <div className="text-sm font-medium text-pink-400">思い</div>
@@ -208,7 +218,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             {/* データ管理 */}
-            <div className="px-4 mb-6">
+            <div className="px-4 mb-4">
               <DataManager onDataChange={refetch} />
             </div>
           </>
@@ -218,16 +228,24 @@ export const HomePage: React.FC = () => {
         <div className="px-4">
           {/* タブタイトル */}
           {activeTab !== 'all' && (
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-white mb-2">
+            <div className="mb-4">
+              <h2 className="text-lg font-bold text-white mb-2">
                 {activeTab === 'tasks' && '📋 タスク'}
                 {activeTab === 'ideas' && '💡 アイデア'}
                 {activeTab === 'shopping' && '🛒 買い物'}
                 {activeTab === 'thoughts' && '💭 思い'}
               </h2>
-              <p className="text-gray-400 text-sm">
-                {filteredMemos.length}件のメモ
-              </p>
+              <div className="flex items-center gap-4 text-sm">
+                <span className="text-gray-300">
+                  総合: <span className="font-semibold text-white">{tabCounts.totalCount}</span>件
+                </span>
+                <span className="text-orange-400">
+                  残タスク: <span className="font-semibold">{tabCounts.pendingCount}</span>件
+                </span>
+                <span className="text-green-400">
+                  完了: <span className="font-semibold">{tabCounts.completedCount}</span>件
+                </span>
+              </div>
             </div>
           )}
 
@@ -260,7 +278,7 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-2">
               {filteredMemos.map((memo) => (
                 <MemoCard
                   key={memo.id}

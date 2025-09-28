@@ -82,11 +82,11 @@ export const MemoCard: React.FC<MemoCardProps> = ({
 
   return (
     <div className={clsx(
-      'bg-gray-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-700/20 p-6 transition-all duration-300 hover:shadow-2xl hover:scale-105 cursor-pointer hover:bg-gray-700/90',
+      'bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-700/20 p-3 transition-all duration-300 hover:shadow-2xl hover:scale-105 cursor-pointer hover:bg-gray-700/90',
       memo.is_completed && 'opacity-60 bg-gray-900/80',
       !memo.is_completed && 'hover:border-blue-500/50'
     )}>
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2 flex-1">
           <button
             onClick={handleToggleComplete}
@@ -98,15 +98,15 @@ export const MemoCard: React.FC<MemoCardProps> = ({
             )}
           >
             {memo.is_completed ? (
-              <CheckCircle size={20} className="fill-current" />
+              <CheckCircle size={16} className="fill-current" />
             ) : (
-              <Circle size={20} />
+              <Circle size={16} />
             )}
           </button>
           
           <div className="flex-1 min-w-0">
             <div className={clsx(
-              'font-semibold text-lg truncate text-white',
+              'font-semibold text-base truncate text-white',
               memo.is_completed && 'line-through text-gray-400'
             )}>
               {memo.content || 'メモ内容がありません'}
@@ -134,7 +134,7 @@ export const MemoCard: React.FC<MemoCardProps> = ({
       </div>
 
 
-      <div className="flex flex-wrap items-center gap-2 mb-3">
+      <div className="flex flex-wrap items-center gap-1 mb-2">
         {memo.is_task && (
           <span className="px-2 py-1 rounded-full text-xs font-medium border bg-green-600/20 border-green-500/20 text-green-400">
             📋 タスク
@@ -157,7 +157,7 @@ export const MemoCard: React.FC<MemoCardProps> = ({
         ))}
       </div>
 
-      <div className="flex items-center justify-between text-xs text-gray-500">
+      <div className="flex items-center justify-between text-xs text-gray-500 mt-1">
         <div className="flex items-center gap-1">
           <Calendar size={12} />
           <span>
