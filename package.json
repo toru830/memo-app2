@@ -9,6 +9,7 @@
     "client:dev": "cd client && npm run dev",
     "build": "cd client && npm run build",
     "start": "cd server && npm start",
+    "lint": "npm --prefix client run lint",
     "install:all": "npm install && cd server && npm install && cd ../client && npm install"
   },
   "keywords": ["memo", "task", "management", "react", "nodejs"],
