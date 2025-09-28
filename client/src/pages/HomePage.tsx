@@ -28,8 +28,8 @@ export const HomePage: React.FC = () => {
     
     const term = searchTerm.toLowerCase();
     return memos.filter(memo => 
-      memo.title.toLowerCase().includes(term) ||
       memo.content.toLowerCase().includes(term) ||
+      memo.category.toLowerCase().includes(term) ||
       memo.tags.some(tag => tag.toLowerCase().includes(term))
     );
   }, [memos, searchTerm]);
@@ -109,26 +109,28 @@ export const HomePage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
         {/* ヘッダー */}
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">📝 メモアプリ</h1>
-              <p className="text-gray-600">日々の考え、メモ、タスクを管理しましょう</p>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+                ✨ メモアプリ
+              </h1>
+              <p className="text-gray-600 text-lg">日々の考え、メモ、タスクを管理しましょう</p>
             </div>
-            <div className="flex gap-2 mt-4 md:mt-0">
+            <div className="flex gap-3 mt-4 md:mt-0">
               <button
                 onClick={() => setShowVoiceInput(true)}
-                className="btn btn-secondary flex items-center gap-2"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-medium flex items-center gap-2 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 <Mic size={20} />
                 🎤 音声入力
               </button>
               <button
                 onClick={() => setShowForm(true)}
-                className="btn btn-primary flex items-center gap-2"
+                className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white px-6 py-3 rounded-xl font-medium flex items-center gap-2 transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 <Plus size={20} />
                 ✏️ 新しいメモ
@@ -137,31 +139,38 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* クイックアクション */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
             <button
-              onClick={() => handleCreateMemo({ title: '📝 メモ', content: '', category: 'メモ', tags: [], is_task: false, is_completed: false })}
-              className="bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg p-4 text-center transition-colors"
+              onClick={() => handleCreateMemo({ content: '', category: '買い物', tags: [], is_task: false, is_completed: false })}
+              className="bg-orange-50 hover:bg-orange-100 border border-orange-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
             >
-              <div className="text-2xl mb-2">📝</div>
-              <div className="text-sm font-medium text-blue-800">クイックメモ</div>
+              <div className="text-2xl mb-2">🛒</div>
+              <div className="text-sm font-medium text-orange-800">買い物</div>
             </button>
             <button
-              onClick={() => handleCreateMemo({ title: '✅ タスク', content: '', category: 'タスク', tags: [], is_task: true, is_completed: false })}
-              className="bg-green-50 hover:bg-green-100 border border-green-200 rounded-lg p-4 text-center transition-colors"
+              onClick={() => handleCreateMemo({ content: '', category: '仕事', tags: [], is_task: true, is_completed: false })}
+              className="bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
             >
-              <div className="text-2xl mb-2">✅</div>
-              <div className="text-sm font-medium text-green-800">新しいタスク</div>
+              <div className="text-2xl mb-2">💼</div>
+              <div className="text-sm font-medium text-blue-800">仕事</div>
             </button>
             <button
-              onClick={() => handleCreateMemo({ title: '💡 アイデア', content: '', category: 'アイデア', tags: [], is_task: false, is_completed: false })}
-              className="bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 rounded-lg p-4 text-center transition-colors"
+              onClick={() => handleCreateMemo({ content: '', category: 'プライベート', tags: [], is_task: false, is_completed: false })}
+              className="bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
             >
-              <div className="text-2xl mb-2">💡</div>
-              <div className="text-sm font-medium text-yellow-800">アイデア</div>
+              <div className="text-2xl mb-2">🏠</div>
+              <div className="text-sm font-medium text-green-800">プライベート</div>
+            </button>
+            <button
+              onClick={() => handleCreateMemo({ content: '', category: '思い', tags: [], is_task: false, is_completed: false })}
+              className="bg-pink-50 hover:bg-pink-100 border border-pink-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
+            >
+              <div className="text-2xl mb-2">💭</div>
+              <div className="text-sm font-medium text-pink-800">思い</div>
             </button>
             <button
               onClick={() => setShowVoiceInput(true)}
-              className="bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-lg p-4 text-center transition-colors"
+              className="bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl p-4 text-center transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md"
             >
               <div className="text-2xl mb-2">🎤</div>
               <div className="text-sm font-medium text-purple-800">音声入力</div>
@@ -267,13 +276,13 @@ export const HomePage: React.FC = () => {
           <div className="flex flex-col gap-3">
             <button
               onClick={() => setShowVoiceInput(true)}
-              className="bg-purple-500 hover:bg-purple-600 text-white rounded-full p-4 shadow-lg transition-colors"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-110"
             >
               <Mic size={24} />
             </button>
             <button
               onClick={() => setShowForm(true)}
-              className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-4 shadow-lg transition-colors"
+              className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-110"
             >
               <Plus size={24} />
             </button>

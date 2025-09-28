@@ -70,11 +70,11 @@ export const MemoCard: React.FC<MemoCardProps> = ({
   // カテゴリ別の色設定
   const getCategoryColor = (category: string) => {
     const colors: { [key: string]: string } = {
-      'メモ': 'bg-blue-50 border-blue-200 text-blue-800',
-      'タスク': 'bg-green-50 border-green-200 text-green-800',
+      '買い物': 'bg-orange-50 border-orange-200 text-orange-800',
+      '仕事': 'bg-blue-50 border-blue-200 text-blue-800',
+      'プライベート': 'bg-green-50 border-green-200 text-green-800',
+      '思い': 'bg-pink-50 border-pink-200 text-pink-800',
       'アイデア': 'bg-yellow-50 border-yellow-200 text-yellow-800',
-      '重要': 'bg-red-50 border-red-200 text-red-800',
-      'プロジェクト': 'bg-purple-50 border-purple-200 text-purple-800',
       'その他': 'bg-gray-50 border-gray-200 text-gray-800'
     };
     return colors[category] || colors['その他'];
@@ -82,9 +82,9 @@ export const MemoCard: React.FC<MemoCardProps> = ({
 
   return (
     <div className={clsx(
-      'bg-white rounded-xl shadow-sm border-2 p-6 transition-all duration-200 hover:shadow-lg hover:scale-105 cursor-pointer',
-      memo.is_completed && 'opacity-60 bg-gray-50',
-      !memo.is_completed && 'hover:border-blue-300'
+      'bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 transition-all duration-300 hover:shadow-2xl hover:scale-105 cursor-pointer hover:bg-white/90',
+      memo.is_completed && 'opacity-60 bg-gray-50/80',
+      !memo.is_completed && 'hover:border-blue-300/50'
     )}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 flex-1">
@@ -105,12 +105,12 @@ export const MemoCard: React.FC<MemoCardProps> = ({
           </button>
           
           <div className="flex-1 min-w-0">
-            <h3 className={clsx(
+            <div className={clsx(
               'font-semibold text-lg truncate',
               memo.is_completed && 'line-through text-gray-500'
             )}>
-              {memo.title}
-            </h3>
+              {memo.content || 'メモ内容がありません'}
+            </div>
           </div>
         </div>
 
@@ -133,13 +133,6 @@ export const MemoCard: React.FC<MemoCardProps> = ({
         </div>
       </div>
 
-      {memo.content && (
-        <div className="mb-3">
-          <p className="text-gray-700 text-sm line-clamp-3">
-            {memo.content}
-          </p>
-        </div>
-      )}
 
       <div className="flex flex-wrap items-center gap-2 mb-3">
         {memo.category && memo.category !== 'general' && (

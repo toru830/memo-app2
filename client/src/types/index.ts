@@ -1,6 +1,5 @@
 export interface Memo {
   id: number;
-  title: string;
   content: string;
   category: string;
   is_task: boolean;
@@ -12,8 +11,7 @@ export interface Memo {
 }
 
 export interface CreateMemoData {
-  title: string;
-  content?: string;
+  content: string;
   category?: string;
   is_task?: boolean;
   priority?: number;

@@ -131,15 +131,15 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({ onMemoCreate, onClose })
     }
     
     // カテゴリの判定
-    let category = 'general';
-    if (lowerText.includes('仕事') || lowerText.includes('ビジネス')) {
-      category = 'work';
-    } else if (lowerText.includes('買い物') || lowerText.includes('ショッピング')) {
-      category = 'shopping';
-    } else if (lowerText.includes('勉強') || lowerText.includes('学習')) {
-      category = 'study';
-    } else if (lowerText.includes('健康') || lowerText.includes('運動')) {
-      category = 'health';
+    let category = 'プライベート';
+    if (lowerText.includes('仕事') || lowerText.includes('ビジネス') || lowerText.includes('会議') || lowerText.includes('プロジェクト')) {
+      category = '仕事';
+    } else if (lowerText.includes('買い物') || lowerText.includes('ショッピング') || lowerText.includes('購入')) {
+      category = '買い物';
+    } else if (lowerText.includes('アイデア') || lowerText.includes('思いつき') || lowerText.includes('発想')) {
+      category = 'アイデア';
+    } else if (lowerText.includes('思い') || lowerText.includes('感情') || lowerText.includes('感じ')) {
+      category = '思い';
     }
     
     // タグの抽出
@@ -151,14 +151,10 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({ onMemoCreate, onClose })
     if (lowerText.includes('電話')) tags.push('電話');
     if (lowerText.includes('メール')) tags.push('メール');
     
-    // タイトルの生成（最初の部分をタイトルとして使用）
-    const title = text.length > 30 ? text.substring(0, 30) + '...' : text;
-    
     return {
-      title,
       content: text,
       category,
-      isTask,
+      is_task: isTask,
       priority,
       tags
     };

@@ -12,7 +12,6 @@ interface MemoFormProps {
 export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) => {
   const { categories } = useCategories();
   const [formData, setFormData] = useState({
-    title: '',
     content: '',
     category: 'general',
     is_task: false,
@@ -25,7 +24,6 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) =>
   useEffect(() => {
     if (memo) {
       setFormData({
-        title: memo.title,
         content: memo.content,
         category: memo.category,
         is_task: memo.is_task,
@@ -37,7 +35,7 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) =>
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title.trim()) return;
+    if (!formData.content.trim()) return;
 
     setLoading(true);
     try {
@@ -91,19 +89,6 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) =>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                タイトル *
-              </label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="input"
-                placeholder="メモのタイトルを入力"
-                required
-              />
-            </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -127,12 +112,11 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) =>
                   onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
                   className="input"
                 >
-                  <option value="general">一般</option>
-                  {categories.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
-                  ))}
+                  <option value="買い物">🛒 買い物</option>
+                  <option value="仕事">💼 仕事</option>
+                  <option value="プライベート">🏠 プライベート</option>
+                  <option value="思い">💭 思い</option>
+                  <option value="アイデア">💡 アイデア</option>
                 </select>
               </div>
 
