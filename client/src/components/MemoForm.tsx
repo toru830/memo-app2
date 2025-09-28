@@ -7,13 +7,14 @@ interface MemoFormProps {
   memo?: Memo;
   onSave: (data: CreateMemoData | UpdateMemoData) => Promise<void>;
   onCancel: () => void;
+  initialCategory?: string | null;
 }
 
-export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) => {
+export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, initialCategory }) => {
   // const { categories } = useCategories();
   const [formData, setFormData] = useState({
     content: '',
-    category: 'general',
+    category: initialCategory || 'general',
     is_task: false,
     priority: 1,
     tags: [] as string[],
@@ -30,8 +31,14 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) =>
         priority: memo.priority,
         tags: memo.tags,
       });
+    } else if (initialCategory) {
+      setFormData(prev => ({
+        ...prev,
+        category: initialCategory,
+        is_task: initialCategory === '仕事',
+      }));
     }
-  }, [memo]);
+  }, [memo, initialCategory]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
