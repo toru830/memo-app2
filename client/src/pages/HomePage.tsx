@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Plus, Search, Mic, Sparkles } from 'lucide-react';
+import { Plus, Sparkles } from 'lucide-react';
 import { Memo, CreateMemoData, UpdateMemoData, FilterOptions } from '../types';
 import { useMemos } from '../hooks/useMemos';
-import { useCategories } from '../hooks/useCategories';
-import { useTags } from '../hooks/useTags';
+// import { useCategories } from '../hooks/useCategories';
+// import { useTags } from '../hooks/useTags';
 import { MemoCard } from '../components/MemoCard';
 import { MemoForm } from '../components/MemoForm';
-import { FilterBar } from '../components/FilterBar';
+// import { FilterBar } from '../components/FilterBar';
 import { StatsCard } from '../components/StatsCard';
 import { DataManager } from '../components/DataManager';
 import { VoiceInput } from '../components/VoiceInput';
@@ -14,15 +14,15 @@ import { TabNavigation, TabType } from '../components/TabNavigation';
 import { ModernHeader } from '../components/ModernHeader';
 
 export const HomePage: React.FC = () => {
-  const [filters, setFilters] = useState<FilterOptions>({});
+  const [filters] = useState<FilterOptions>({});
   const [editingMemo, setEditingMemo] = useState<Memo | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [showVoiceInput, setShowVoiceInput] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState<TabType>('all');
 
-  const { categories } = useCategories();
-  const { tags } = useTags();
+  // const { categories } = useCategories();
+  // const { tags } = useTags();
   const { memos, loading, error, createMemo, updateMemo, deleteMemo, toggleComplete, refetch } = useMemos(filters);
 
   // タブと検索フィルターを適用

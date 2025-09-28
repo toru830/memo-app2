@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Minus } from 'lucide-react';
 import { Memo, CreateMemoData, UpdateMemoData } from '../types';
-import { useCategories } from '../hooks/useCategories';
+// import { useCategories } from '../hooks/useCategories';
 
 interface MemoFormProps {
   memo?: Memo;
@@ -10,7 +10,7 @@ interface MemoFormProps {
 }
 
 export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) => {
-  const { categories } = useCategories();
+  // const { categories } = useCategories();
   const [formData, setFormData] = useState({
     content: '',
     category: 'general',
@@ -194,7 +194,7 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel }) =>
             <div className="flex gap-3 pt-4">
               <button
                 type="submit"
-                disabled={loading || !formData.title.trim()}
+                disabled={loading || !formData.content.trim()}
                 className="btn btn-primary flex-1"
               >
                 {loading ? '保存中...' : memo ? '更新' : '作成'}

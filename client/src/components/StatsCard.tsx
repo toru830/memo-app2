@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, CheckCircle, Clock, Star, Target, TrendingUp } from 'lucide-react';
+import { FileText, CheckCircle, Clock, Star } from 'lucide-react';
 import { Memo } from '../types';
 
 interface StatsCardProps {

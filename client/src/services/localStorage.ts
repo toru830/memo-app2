@@ -61,7 +61,6 @@ export class LocalStorageService {
     const memos = this.getData();
     const newMemo: Memo = {
       id: this.generateId(),
-      title: data.title,
       content: data.content || '',
       category: data.category || 'general',
       is_task: data.is_task || false,
@@ -147,7 +146,6 @@ export class LocalStorageService {
       try {
         const memo: Memo = {
           id: this.generateId() + index,
-          title: memoData.title || '',
           content: memoData.content || '',
           category: memoData.category || 'general',
           is_task: Boolean(memoData.is_task),

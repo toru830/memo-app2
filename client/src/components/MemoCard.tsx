@@ -206,7 +206,7 @@ export const MemoCard: React.FC<MemoCardProps> = ({
             {audioRecordings.map((recording) => (
               <div key={recording.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                 <div className="flex items-center gap-2">
-                  <VoicePlayer text={memo.title} size="sm" />
+                  <VoicePlayer text={memo.content} size="sm" />
                   <span className="text-xs text-gray-600">
                     {format(new Date(recording.createdAt), 'HH:mm')} 
                     ({Math.round(recording.duration)}s)

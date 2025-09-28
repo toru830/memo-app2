@@ -95,10 +95,9 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({ onMemoCreate, onClose })
       const analysis = analyzeTranscript(transcript);
       
       const memoData: CreateMemoData = {
-        title: analysis.title,
         content: analysis.content,
         category: analysis.category,
-        is_task: analysis.isTask,
+        is_task: analysis.is_task,
         priority: analysis.priority,
         tags: analysis.tags
       };
