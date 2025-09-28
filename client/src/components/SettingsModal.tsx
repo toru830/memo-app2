@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Download, Upload, Database } from 'lucide-react';
+import { X, Database } from 'lucide-react';
 import { DataManager } from './DataManager';
 
 interface SettingsModalProps {
