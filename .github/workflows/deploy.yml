@@ -36,8 +36,8 @@ jobs:
       - name: Build
         run: |
           cd client
-          npm run build
-          # Create 404.html for GitHub Pages SPA routing
+          npx tsc
+          npx vite build
           cp dist/index.html dist/404.html
           
       - name: Setup Pages
