@@ -41,6 +41,8 @@ jobs:
         run: |
           cd client
           npm run build
+          # Create 404.html for GitHub Pages SPA routing
+          cp dist/index.html dist/404.html
           
       - name: Setup Pages
         uses: actions/configure-pages@v5
