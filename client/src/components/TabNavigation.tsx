@@ -62,50 +62,53 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-lg border-t border-gray-800/50 z-50">
-      <div className="px-4 py-3 space-y-3 max-w-3xl mx-auto">
-        <div className="grid grid-cols-5 gap-2">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+      <div className="px-4 py-3 max-w-3xl mx-auto">
+        <div className="flex items-center justify-between gap-2">
+          {/* メインタブ */}
+          <div className="flex gap-2 flex-1">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => onTabChange(tab.id)}
-                className={`flex items-center justify-center aspect-square rounded-2xl transition-all duration-200 ${
-                  isActive
-                    ? `${tab.bgColor} ${tab.activeColor} scale-[1.02]`
-                    : `${tab.color} hover:bg-gray-800`
-                }`}
-              >
-                <Icon size={22} />
-              </button>
-            );
-          })}
-        </div>
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => onTabChange(tab.id)}
+                  className={`flex items-center justify-center aspect-square rounded-2xl transition-all duration-200 ${
+                    isActive
+                      ? `${tab.bgColor} ${tab.activeColor} scale-[1.02]`
+                      : `${tab.color} hover:bg-gray-800`
+                  }`}
+                >
+                  <Icon size={20} />
+                </button>
+              );
+            })}
+          </div>
 
-        {/* 追加ボタン */}
-        <div className="flex justify-center gap-3">
-          <button
-            onClick={() => onTabChange('add')}
-            className={`flex items-center justify-center w-14 h-14 rounded-full transition-all duration-200 ${
-              activeTab === 'add'
-                ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-105 shadow-lg'
-                : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:scale-105 shadow-md'
-            }`}
-          >
-            <Plus size={22} />
-          </button>
-          <button
-            onClick={() => onTabChange('voice')}
-            className={`flex items-center justify-center w-14 h-14 rounded-full transition-all duration-200 ${
-              activeTab === 'voice'
-                ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white scale-105 shadow-lg'
-                : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:scale-105 shadow-md'
-            }`}
-          >
-            <Mic size={22} />
-          </button>
+          {/* 追加ボタン */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => onTabChange('add')}
+              className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 ${
+                activeTab === 'add'
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-105 shadow-lg'
+                  : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:scale-105 shadow-md'
+              }`}
+            >
+              <Plus size={20} />
+            </button>
+            <button
+              onClick={() => onTabChange('voice')}
+              className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 ${
+                activeTab === 'voice'
+                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white scale-105 shadow-lg'
+                  : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:scale-105 shadow-md'
+              }`}
+            >
+              <Mic size={20} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
