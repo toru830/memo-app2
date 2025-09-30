@@ -177,11 +177,6 @@ export const HomePage: React.FC = () => {
         {/* すべてタブの時のみ統計とクイックアクションを表示 */}
         {activeTab === 'all' && (
           <>
-            {/* 統計カード */}
-            <div className="px-4 py-2">
-              <StatsCard memos={memos} />
-            </div>
-
             {/* クイックアクション */}
             <div className="px-4 mb-3">
               <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-3 border border-gray-700/20 shadow-sm">
@@ -228,6 +223,11 @@ export const HomePage: React.FC = () => {
                   </button>
                 </div>
               </div>
+            </div>
+
+            {/* 統計カード */}
+            <div className="px-4 py-2">
+              <StatsCard memos={memos} />
             </div>
 
           </>
