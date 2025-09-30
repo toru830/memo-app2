@@ -33,14 +33,17 @@ export const HomePage: React.FC = () => {
 
     // タブによるフィルタリング
     switch (activeTab) {
-      case 'tasks':
-        filtered = filtered.filter(memo => memo.is_task);
+      case 'shopping':
+        filtered = filtered.filter(memo => memo.category === '買い物');
+        break;
+      case 'work':
+        filtered = filtered.filter(memo => memo.category === '仕事');
+        break;
+      case 'private':
+        filtered = filtered.filter(memo => memo.category === 'プライベート');
         break;
       case 'ideas':
         filtered = filtered.filter(memo => memo.category === 'アイデア');
-        break;
-      case 'shopping':
-        filtered = filtered.filter(memo => memo.category === '買い物');
         break;
       case 'thoughts':
         filtered = filtered.filter(memo => memo.category === '思い');
@@ -165,10 +168,11 @@ export const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black">
       {/* ヘッダー */}
-      <ModernHeader 
-        onSearch={setSearchTerm} 
+      <ModernHeader
+        onSearch={setSearchTerm}
         searchTerm={searchTerm}
         onSettingsClick={() => setShowSettings(true)}
+        activeTab={activeTab}
       />
       
       <div className="pb-24">
@@ -255,9 +259,10 @@ export const HomePage: React.FC = () => {
           {activeTab !== 'all' && (
             <div className="mb-4">
               <h2 className="text-lg font-bold text-white mb-2">
-                {activeTab === 'tasks' && '📋 タスク'}
-                {activeTab === 'ideas' && '💡 アイデア'}
                 {activeTab === 'shopping' && '🛒 買い物'}
+                {activeTab === 'work' && '💼 仕事'}
+                {activeTab === 'private' && '🏠 プライベート'}
+                {activeTab === 'ideas' && '💡 アイデア'}
                 {activeTab === 'thoughts' && '💭 思い'}
               </h2>
               <div className="flex items-center gap-4 text-sm">

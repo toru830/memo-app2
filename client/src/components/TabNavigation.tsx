@@ -8,7 +8,7 @@ import {
   Plus
 } from 'lucide-react';
 
-export type TabType = 'all' | 'tasks' | 'ideas' | 'shopping' | 'thoughts' | 'add';
+export type TabType = 'all' | 'shopping' | 'work' | 'private' | 'ideas' | 'thoughts' | 'add';
 
 interface TabNavigationProps {
   activeTab: TabType;
@@ -26,9 +26,25 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
       bgColor: 'bg-blue-600/20',
     },
     {
-      id: 'tasks' as TabType,
-      label: 'タスク',
+      id: 'shopping' as TabType,
+      label: '買い物',
+      icon: ShoppingCart,
+      color: 'text-gray-400',
+      activeColor: 'text-orange-400',
+      bgColor: 'bg-orange-600/20',
+    },
+    {
+      id: 'work' as TabType,
+      label: '仕事',
       icon: CheckSquare,
+      color: 'text-gray-400',
+      activeColor: 'text-blue-400',
+      bgColor: 'bg-blue-600/20',
+    },
+    {
+      id: 'private' as TabType,
+      label: 'プライベート',
+      icon: Heart,
       color: 'text-gray-400',
       activeColor: 'text-green-400',
       bgColor: 'bg-green-600/20',
@@ -40,14 +56,6 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
       color: 'text-gray-400',
       activeColor: 'text-yellow-400',
       bgColor: 'bg-yellow-600/20',
-    },
-    {
-      id: 'shopping' as TabType,
-      label: '買い物',
-      icon: ShoppingCart,
-      color: 'text-gray-400',
-      activeColor: 'text-orange-400',
-      bgColor: 'bg-orange-600/20',
     },
     {
       id: 'thoughts' as TabType,

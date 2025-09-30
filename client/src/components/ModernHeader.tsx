@@ -5,9 +5,10 @@ interface ModernHeaderProps {
   onSearch: (term: string) => void;
   searchTerm: string;
   onSettingsClick?: () => void;
+  activeTab?: string;
 }
 
-export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm, onSettingsClick }) => {
+export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm, onSettingsClick, activeTab }) => {
   return (
     <div className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-gray-800/50">
       <div className="px-4 py-4">
@@ -35,17 +36,19 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
           </div>
         </div>
 
-        {/* 検索バー */}
-        <div className="relative">
-          <Search size={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => onSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-gray-800 rounded-2xl border-0 focus:ring-2 focus:ring-blue-500 focus:bg-gray-700 transition-all duration-200 text-white placeholder-gray-400"
-            placeholder="メモを検索..."
-          />
-        </div>
+        {/* 検索バー - ホームタブのみ表示 */}
+        {activeTab === 'all' && (
+          <div className="relative">
+            <Search size={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => onSearch(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 bg-gray-800 rounded-2xl border-0 focus:ring-2 focus:ring-blue-500 focus:bg-gray-700 transition-all duration-200 text-white placeholder-gray-400"
+              placeholder="メモを検索..."
+            />
+          </div>
+        )}
       </div>
     </div>
   );
