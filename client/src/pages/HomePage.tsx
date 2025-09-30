@@ -7,7 +7,6 @@ import { useMemos } from '../hooks/useMemos';
 import { MemoCard } from '../components/MemoCard';
 import { MemoForm } from '../components/MemoForm';
 // import { FilterBar } from '../components/FilterBar';
-import { StatsCard } from '../components/StatsCard';
 import { VoiceInput } from '../components/VoiceInput';
 import { TabNavigation, TabType } from '../components/TabNavigation';
 import { ModernHeader } from '../components/ModernHeader';
@@ -245,10 +244,6 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* 統計カード */}
-            <div className="px-4 py-2 mt-2">
-              <StatsCard memos={memos} />
-            </div>
 
           </>
         )}
@@ -364,6 +359,7 @@ export const HomePage: React.FC = () => {
           <SettingsModal
             onClose={() => setShowSettings(false)}
             onDataChange={refetch}
+            memos={memos}
           />
         )}
       </div>

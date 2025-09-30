@@ -1,13 +1,16 @@
 import React from 'react';
-import { X, Database } from 'lucide-react';
+import { X, Database, BarChart3 } from 'lucide-react';
 import { DataManager } from './DataManager';
+import { StatsCard } from './StatsCard';
+import { Memo } from '../types';
 
 interface SettingsModalProps {
   onClose: () => void;
   onDataChange: () => void;
+  memos: Memo[];
 }
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onDataChange }) => {
+export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onDataChange, memos }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
       <div className="bg-gray-800 rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto border border-gray-700">
@@ -23,6 +26,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onDataCha
           </div>
 
           <div className="space-y-4">
+            <div className="bg-gray-700/50 rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <BarChart3 size={20} className="text-purple-400" />
+                <h3 className="text-lg font-semibold text-white">統計情報</h3>
+              </div>
+              <StatsCard memos={memos} />
+            </div>
+
             <div className="bg-gray-700/50 rounded-lg p-4">
               <div className="flex items-center gap-3 mb-3">
                 <Database size={20} className="text-blue-400" />
