@@ -61,8 +61,8 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
 
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-lg border-t border-gray-800/50 z-50">
-      <div className="px-4 py-3 max-w-3xl mx-auto">
-        <div className="flex items-center justify-center gap-3">
+      <div className="px-2 py-3">
+        <div className="flex items-center justify-between w-full">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -71,7 +71,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className={`flex items-center justify-center aspect-square rounded-2xl transition-all duration-200 ${
+                className={`flex items-center justify-center w-full aspect-square rounded-2xl transition-all duration-200 ${
                   isActive
                     ? `${tab.bgColor} ${tab.activeColor} scale-[1.02]`
                     : `${tab.color} hover:bg-gray-800`
@@ -85,7 +85,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
           {/* 追加ボタン */}
           <button
             onClick={() => onTabChange('add')}
-            className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 ${
+            className={`flex items-center justify-center w-full aspect-square rounded-full transition-all duration-200 ${
               activeTab === 'add'
                 ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-105 shadow-lg'
                 : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:scale-105 shadow-md'
