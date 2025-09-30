@@ -5,11 +5,10 @@ import {
   Lightbulb, 
   ShoppingCart, 
   Heart,
-  Plus,
-  Mic
+  Plus
 } from 'lucide-react';
 
-export type TabType = 'all' | 'tasks' | 'ideas' | 'shopping' | 'thoughts' | 'add' | 'voice';
+export type TabType = 'all' | 'tasks' | 'ideas' | 'shopping' | 'thoughts' | 'add';
 
 interface TabNavigationProps {
   activeTab: TabType;
@@ -80,7 +79,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
                       : `${tab.color} hover:bg-gray-800`
                   }`}
                 >
-                  <Icon size={20} />
+                  <Icon size={18} />
                 </button>
               );
             })}
@@ -90,23 +89,13 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
           <div className="flex gap-2">
             <button
               onClick={() => onTabChange('add')}
-              className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 ${
                 activeTab === 'add'
                   ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-105 shadow-lg'
                   : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:scale-105 shadow-md'
               }`}
             >
-              <Plus size={20} />
-            </button>
-            <button
-              onClick={() => onTabChange('voice')}
-              className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 ${
-                activeTab === 'voice'
-                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white scale-105 shadow-lg'
-                  : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:scale-105 shadow-md'
-              }`}
-            >
-              <Mic size={20} />
+              <Plus size={16} />
             </button>
           </div>
         </div>

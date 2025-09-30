@@ -122,8 +122,6 @@ export const HomePage: React.FC = () => {
     setActiveTab(tab);
     if (tab === 'add') {
       setShowForm(true);
-    } else if (tab === 'voice') {
-      setShowVoiceInput(true);
     }
   };
 
