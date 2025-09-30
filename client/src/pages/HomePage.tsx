@@ -211,12 +211,30 @@ export const HomePage: React.FC = () => {
                     </div>
                   </button>
                   <button
+                    onClick={() => handleQuickCreate('アイデア', false)}
+                    className="bg-gradient-to-br from-yellow-600/20 to-yellow-700/20 hover:from-yellow-600/30 hover:to-yellow-700/30 rounded-lg p-2 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-yellow-500/20"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-lg">💡</div>
+                      <div className="text-xs font-medium text-yellow-400">アイデア</div>
+                    </div>
+                  </button>
+                  <button
                     onClick={() => handleQuickCreate('思い', false)}
                     className="bg-gradient-to-br from-pink-600/20 to-pink-700/20 hover:from-pink-600/30 hover:to-pink-700/30 rounded-lg p-2 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-pink-500/20"
                   >
                     <div className="flex items-center gap-3">
                       <div className="text-lg">💭</div>
                       <div className="text-xs font-medium text-pink-400">思い</div>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => handleQuickCreate('その他', false)}
+                    className="bg-gradient-to-br from-gray-600/20 to-gray-700/20 hover:from-gray-600/30 hover:to-gray-700/30 rounded-lg p-2 transition-all duration-200 hover:scale-105 shadow-sm hover:shadow-md border border-gray-500/20"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-lg">📝</div>
+                      <div className="text-xs font-medium text-gray-400">その他</div>
                     </div>
                   </button>
                 </div>

@@ -130,7 +130,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({ onMemoCreate, onClose })
     }
     
     // カテゴリの判定
-    let category = 'プライベート';
+    let category = 'その他';
     if (lowerText.includes('仕事') || lowerText.includes('ビジネス') || lowerText.includes('会議') || lowerText.includes('プロジェクト')) {
       category = '仕事';
     } else if (lowerText.includes('買い物') || lowerText.includes('ショッピング') || lowerText.includes('購入')) {
@@ -139,6 +139,8 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({ onMemoCreate, onClose })
       category = 'アイデア';
     } else if (lowerText.includes('思い') || lowerText.includes('感情') || lowerText.includes('感じ')) {
       category = '思い';
+    } else if (lowerText.includes('プライベート') || lowerText.includes('個人') || lowerText.includes('私的')) {
+      category = 'プライベート';
     }
     
     // タグの抽出

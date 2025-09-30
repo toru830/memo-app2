@@ -17,7 +17,6 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
             <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
               📝 メモ
             </h1>
-            <p className="text-sm text-gray-400">今日も良い一日を</p>
           </div>
           
           <div className="flex items-center gap-3">

@@ -28,9 +28,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onDataCha
                 <Database size={20} className="text-blue-400" />
                 <h3 className="text-lg font-semibold text-white">データ管理</h3>
               </div>
-              <p className="text-sm text-gray-400 mb-4">
-                メモのエクスポート、インポート、データのクリアを行えます。
-              </p>
               <DataManager onDataChange={onDataChange} />
             </div>
 

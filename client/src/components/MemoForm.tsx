@@ -123,8 +123,9 @@ export const MemoForm: React.FC<MemoFormProps> = ({ memo, onSave, onCancel, init
                   <option value="買い物">🛒 買い物</option>
                   <option value="仕事">💼 仕事</option>
                   <option value="プライベート">🏠 プライベート</option>
-                  <option value="思い">💭 思い</option>
                   <option value="アイデア">💡 アイデア</option>
+                  <option value="思い">💭 思い</option>
+                  <option value="その他">📝 その他</option>
                 </select>
               </div>
 
