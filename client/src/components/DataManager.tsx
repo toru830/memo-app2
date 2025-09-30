@@ -82,34 +82,34 @@ export const DataManager: React.FC<DataManagerProps> = ({ onDataChange }) => {
         <button
           onClick={handleExport}
           disabled={loading}
-          className="btn btn-secondary flex items-center gap-2"
+          className="flex items-center justify-center w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+          title="エクスポート"
         >
-          <Download size={16} />
-          エクスポート
+          <Download size={16} className="text-white" />
         </button>
         
         <button
           onClick={() => setShowModal(true)}
-          className="btn btn-secondary flex items-center gap-2"
+          className="flex items-center justify-center w-10 h-10 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+          title="インポート"
         >
-          <Upload size={16} />
-          インポート
+          <Upload size={16} className="text-white" />
         </button>
         
         <button
           onClick={clearData}
-          className="btn btn-danger flex items-center gap-2"
+          className="flex items-center justify-center w-10 h-10 bg-red-700 hover:bg-red-600 rounded-lg transition-colors"
+          title="データクリア"
         >
-          <Database size={16} />
-          データクリア
+          <Database size={16} className="text-white" />
         </button>
       </div>
 
       {message && (
         <div className={`mb-4 p-3 rounded-lg flex items-center gap-2 ${
           message.type === 'success' 
-            ? 'bg-green-100 text-green-800' 
-            : 'bg-red-100 text-red-800'
+            ? 'bg-green-900/50 text-green-400 border border-green-700/50' 
+            : 'bg-red-900/50 text-red-400 border border-red-700/50'
         }`}>
           <AlertCircle size={16} />
           {message.text}
@@ -117,20 +117,20 @@ export const DataManager: React.FC<DataManagerProps> = ({ onDataChange }) => {
       )}
 
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+          <div className="bg-gray-800 rounded-lg shadow-xl w-full max-w-md border border-gray-700">
             <div className="p-6">
-              <h3 className="text-lg font-semibold mb-4">データインポート</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">データインポート</h3>
               
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   JSONファイルを選択
                 </label>
                 <input
                   type="file"
                   accept=".json"
                   onChange={handleFileChange}
-                  className="input"
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-gray-600 file:text-white hover:file:bg-gray-500"
                 />
               </div>
 
@@ -138,13 +138,13 @@ export const DataManager: React.FC<DataManagerProps> = ({ onDataChange }) => {
                 <button
                   onClick={handleImport}
                   disabled={!importFile || loading}
-                  className="btn btn-primary flex-1"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
                 >
                   {loading ? 'インポート中...' : 'インポート'}
                 </button>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="btn btn-secondary px-6"
+                  className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
                 >
                   キャンセル
                 </button>
