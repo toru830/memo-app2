@@ -178,7 +178,7 @@ export const HomePage: React.FC = () => {
         {activeTab === 'all' && (
           <>
             {/* クイックアクション */}
-            <div className="px-4 mb-3">
+            <div className="px-4 mb-4">
               <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-3 border border-gray-700/20 shadow-sm">
                 <div className="flex items-center gap-2 mb-2">
                   <Sparkles size={14} className="text-purple-400" />
@@ -226,7 +226,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             {/* 統計カード */}
-            <div className="px-4 py-2">
+            <div className="px-4 py-2 mt-2">
               <StatsCard memos={memos} />
             </div>
 

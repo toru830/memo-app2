@@ -72,7 +72,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({ memos }) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-2 mb-4">
+    <div className="grid grid-cols-2 gap-2">
       {statItems.map((item, index) => (
         <div key={index} className="bg-gray-800/70 backdrop-blur-sm rounded-lg p-2 border border-gray-700/20 shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-center gap-3">
