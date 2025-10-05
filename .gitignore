@@ -76,6 +76,8 @@ jspm_packages/
 # Gatsby files
 .cache/
 public
+!client/public/
+!client/public/memo-icon.svg
 
 # Storybook build outputs
 .out
