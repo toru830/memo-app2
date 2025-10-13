@@ -1,6 +1,7 @@
 import { Memo, CreateMemoData, UpdateMemoData } from '../types';
+import { syncService } from './syncService';
 
-// Vercel用の設定（ローカルストレージを使用）
+// Vercel用の設定（ローカルストレージ + Firestore同期を使用）
 const API_BASE_URL = '/api';
 
 class ApiService {
@@ -36,47 +37,34 @@ class ApiService {
     is_task?: boolean;
     is_completed?: boolean;
   }): Promise<Memo[]> {
-    const searchParams = new URLSearchParams();
-    if (params?.category) searchParams.append('category', params.category);
-    if (params?.is_task !== undefined) searchParams.append('is_task', params.is_task.toString());
-    if (params?.is_completed !== undefined) searchParams.append('is_completed', params.is_completed.toString());
-    
-    const queryString = searchParams.toString();
-    const endpoint = queryString ? `/memos?${queryString}` : '/memos';
-    
-    return this.request<Memo[]>(endpoint);
+    return syncService.getMemos(params || {});
   }
 
   async getMemo(id: number): Promise<Memo> {
-    return this.request<Memo>(`/memos/${id}`);
+    return syncService.getMemoById(id);
   }
 
   async createMemo(data: CreateMemoData): Promise<{ id: number; message: string }> {
-    return this.request<{ id: number; message: string }>('/memos', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    // syncServiceを使用してLocalStorageとFirestoreの両方に保存
+    return syncService.createMemo(data);
   }
 
   async updateMemo(id: number, data: UpdateMemoData): Promise<{ message: string }> {
-    return this.request<{ message: string }>(`/memos/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-    });
+    // syncServiceを使用してLocalStorageとFirestoreの両方を更新
+    return syncService.updateMemo(id, data);
   }
 
   async deleteMemo(id: number): Promise<{ message: string }> {
-    return this.request<{ message: string }>(`/memos/${id}`, {
-      method: 'DELETE',
-    });
+    // syncServiceを使用してLocalStorageとFirestoreの両方から削除
+    return syncService.deleteMemo(id);
   }
 
   async getCategories(): Promise<string[]> {
-    return this.request<string[]>('/memos/categories/list');
+    return syncService.getCategories();
   }
 
   async getTags(): Promise<string[]> {
-    return this.request<string[]>('/memos/tags/list');
+    return syncService.getTags();
   }
 
   // ヘルスチェック

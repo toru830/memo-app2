@@ -1,14 +1,16 @@
 import React from 'react';
-import { Search, Bell, Settings, User } from 'lucide-react';
+import { Search, Bell, Settings } from 'lucide-react';
+import { AuthButton } from './AuthButton';
 
 interface ModernHeaderProps {
   onSearch: (term: string) => void;
   searchTerm: string;
   onSettingsClick?: () => void;
   activeTab?: string;
+  onSyncComplete?: () => void;
 }
 
-export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm, onSettingsClick, activeTab }) => {
+export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm, onSettingsClick, activeTab, onSyncComplete }) => {
   return (
     <div className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-gray-800/50">
       <div className="px-4 py-4">
@@ -21,6 +23,7 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
           </div>
           
           <div className="flex items-center gap-3">
+            <AuthButton onSyncComplete={onSyncComplete} />
             <button className="p-2 rounded-full hover:bg-gray-800 transition-colors">
               <Bell size={20} className="text-gray-400" />
             </button>
@@ -30,9 +33,6 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
             >
               <Settings size={20} className="text-gray-400" />
             </button>
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-              <User size={16} className="text-white" />
-            </div>
           </div>
         </div>
 

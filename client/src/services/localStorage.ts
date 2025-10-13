@@ -107,6 +107,10 @@ export class LocalStorageService {
     return { message: 'Memo deleted successfully' };
   }
 
+  async clearAllMemos(): Promise<void> {
+    this.setData([]);
+  }
+
   async getCategories(): Promise<string[]> {
     const memos = this.getData();
     const categories = [...new Set(memos.map(m => m.category))];

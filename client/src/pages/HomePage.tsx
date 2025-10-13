@@ -175,6 +175,7 @@ export const HomePage: React.FC = () => {
         searchTerm={searchTerm}
         onSettingsClick={() => setShowSettings(true)}
         activeTab={activeTab}
+        onSyncComplete={refetch}
       />
       
       <div className="pb-24">
