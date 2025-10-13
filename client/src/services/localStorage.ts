@@ -57,6 +57,10 @@ export class LocalStorageService {
     return memo;
   }
 
+  async getMemoById(id: number): Promise<Memo> {
+    return this.getMemo(id);
+  }
+
   async createMemo(data: CreateMemoData): Promise<{ id: number; message: string }> {
     const memos = this.getData();
     const newMemo: Memo = {

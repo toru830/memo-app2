@@ -15,24 +15,30 @@ const firebaseConfig = {
 let app: any = null;
 let auth: any = null;
 let db: any = null;
+let firebaseInstance: any = null;
 
-if (typeof window !== 'undefined' && typeof firebase !== 'undefined') {
+if (typeof window !== 'undefined') {
   try {
-    // 既に初期化されていない場合のみ初期化
-    if (!firebase.apps.length) {
-      app = firebase.initializeApp(firebaseConfig);
-    } else {
-      app = firebase.app();
+    // グローバルfirebaseオブジェクトを取得
+    firebaseInstance = (window as any).firebase;
+    
+    if (firebaseInstance && firebaseInstance.apps) {
+      // 既に初期化されていない場合のみ初期化
+      if (!firebaseInstance.apps.length) {
+        app = firebaseInstance.initializeApp(firebaseConfig);
+      } else {
+        app = firebaseInstance.app();
+      }
+      
+      auth = firebaseInstance.auth();
+      db = firebaseInstance.firestore();
+      
+      console.log('Firebase initialized successfully');
     }
-    
-    auth = firebase.auth();
-    db = firebase.firestore();
-    
-    console.log('Firebase initialized successfully');
   } catch (error) {
     console.error('Firebase initialization error:', error);
   }
 }
 
-export { app, auth, db, firebase };
+export { app, auth, db, firebaseInstance as firebase };
 
