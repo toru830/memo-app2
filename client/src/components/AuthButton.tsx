@@ -44,6 +44,12 @@ export const AuthButton: React.FC<AuthButtonProps> = ({ onSyncComplete }) => {
   }, [onSyncComplete]);
 
   const handleSignIn = async () => {
+    // Firebase設定が無い場合は説明を表示
+    if (!import.meta.env.VITE_FIREBASE_API_KEY || import.meta.env.VITE_FIREBASE_API_KEY === "firebase-not-configured") {
+      setError('Firebase設定が必要です。詳細は開発者にお問い合わせください。');
+      return;
+    }
+    
     setLoading(true);
     setError(null);
     

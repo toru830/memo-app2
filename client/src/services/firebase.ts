@@ -1,14 +1,14 @@
 // Firebase configuration and initialization
 declare const firebase: any;
 
-// Firebase設定（環境変数から読み込み、なければデフォルト値）
+// Firebase設定（環境変数から読み込み、なければ無効な設定）
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "YOUR_API_KEY",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "YOUR_PROJECT_ID",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "YOUR_SENDER_ID",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "YOUR_APP_ID"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "firebase-not-configured",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "firebase-not-configured",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "firebase-not-configured",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "firebase-not-configured",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "firebase-not-configured",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "firebase-not-configured"
 };
 
 // Firebase初期化（ブラウザ環境のみ）
@@ -17,7 +17,7 @@ let auth: any = null;
 let db: any = null;
 let firebaseInstance: any = null;
 
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && import.meta.env.VITE_FIREBASE_API_KEY && import.meta.env.VITE_FIREBASE_API_KEY !== "firebase-not-configured") {
   try {
     // グローバルfirebaseオブジェクトを取得
     firebaseInstance = (window as any).firebase;
@@ -38,6 +38,8 @@ if (typeof window !== 'undefined') {
   } catch (error) {
     console.error('Firebase initialization error:', error);
   }
+} else {
+  console.log('Firebase not configured - using local storage only');
 }
 
 export { app, auth, db, firebaseInstance as firebase };
