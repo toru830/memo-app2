@@ -32,6 +32,9 @@ export const HomePage: React.FC = () => {
 
     // タブによるフィルタリング
     switch (activeTab) {
+      case 'tasks':
+        filtered = filtered.filter(memo => memo.is_task);
+        break;
       case 'shopping':
         filtered = filtered.filter(memo => memo.category === '買い物');
         break;
@@ -254,6 +257,7 @@ export const HomePage: React.FC = () => {
           {activeTab !== 'all' && (
             <div className="mb-4">
               <h2 className="text-lg font-bold text-white mb-2">
+                {activeTab === 'tasks' && '✅ タスク'}
                 {activeTab === 'shopping' && '🛒 買い物'}
                 {activeTab === 'work' && '💼 仕事'}
                 {activeTab === 'private' && '🏠 プライベート'}

@@ -5,10 +5,11 @@ import {
   Lightbulb, 
   ShoppingCart, 
   Heart,
-  Plus
+  Plus,
+  Briefcase
 } from 'lucide-react';
 
-export type TabType = 'all' | 'shopping' | 'work' | 'private' | 'ideas' | 'thoughts' | 'add';
+export type TabType = 'all' | 'tasks' | 'shopping' | 'work' | 'private' | 'ideas' | 'thoughts' | 'add';
 
 interface TabNavigationProps {
   activeTab: TabType;
@@ -26,6 +27,14 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
       bgColor: 'bg-blue-600/20',
     },
     {
+      id: 'tasks' as TabType,
+      label: 'タスク',
+      icon: CheckSquare,
+      color: 'text-gray-400',
+      activeColor: 'text-green-400',
+      bgColor: 'bg-green-600/20',
+    },
+    {
       id: 'shopping' as TabType,
       label: '買い物',
       icon: ShoppingCart,
@@ -36,7 +45,7 @@ export const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabCh
     {
       id: 'work' as TabType,
       label: '仕事',
-      icon: CheckSquare,
+      icon: Briefcase,
       color: 'text-gray-400',
       activeColor: 'text-blue-400',
       bgColor: 'bg-blue-600/20',
