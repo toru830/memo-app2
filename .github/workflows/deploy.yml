@@ -79,3 +79,4 @@ jobs:
         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MEMO_APP_7D6CF }}'
         channelId: live
         projectId: memo-app-7d6cf
+        entryPoint: ./client/dist
