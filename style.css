@@ -7,247 +7,337 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
     min-height: 100vh;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 /* ヘッダー */
 header {
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 30px;
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
 }
 
 header h1 {
     font-size: 2.5rem;
-    margin-bottom: 10px;
+    color: white;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-.date-info {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-#current-month {
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-#today-btn {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
+.btn-primary {
+    background: #4CAF50;
     color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
     cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-primary:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.btn-secondary {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+}
+
+.btn-secondary:hover {
+    background: #da190b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+}
+
+/* 検索 */
+.search-container {
+    margin-bottom: 30px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
 }
 
-#today-btn:hover {
-    background: rgba(255,255,255,0.3);
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     transform: translateY(-2px);
 }
 
-/* メインコンテンツ */
-main {
-    flex: 1;
-    margin-bottom: 20px;
+/* メモコンテナ */
+.memos-container {
+    display: grid;
+    gap: 20px;
 }
 
-.calendar-container {
-    background: rgba(255,255,255,0.1);
+.memo-card {
+    background: rgba(255,255,255,0.95);
     border-radius: 15px;
     padding: 20px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.2);
 }
 
-.calendar-header {
-    display: grid;
-    grid-template-columns: 2fr repeat(7, 1fr) 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 15px;
-    font-weight: 600;
-    text-align: center;
+.memo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
 }
 
-.item-column {
-    text-align: left;
-    padding: 10px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-}
-
-.day-column {
-    padding: 10px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-}
-
-.summary-column {
-    padding: 10px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    font-size: 0.9rem;
-}
-
-.calendar-body {
+.memo-header {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
 }
 
-.habit-row {
-    display: grid;
-    grid-template-columns: 2fr repeat(7, 1fr) 1fr 1fr;
+.memo-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.memo-date {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.memo-content {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    white-space: pre-wrap;
+}
+
+.memo-actions {
+    display: flex;
     gap: 10px;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.habit-row:last-child {
-    border-bottom: none;
-}
-
-.habit-name {
-    text-align: left;
-    font-weight: 500;
-    padding: 8px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 6px;
-}
-
-.day-cell {
-    text-align: center;
-    padding: 8px;
+.btn-edit {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
     cursor: pointer;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    position: relative;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
 }
 
-.day-cell:hover {
-    background: rgba(255,255,255,0.1);
+.btn-edit:hover {
+    background: #1976D2;
+    transform: translateY(-1px);
 }
 
-.day-cell.checked {
-    background: #4CAF50;
+.btn-delete {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-delete:hover {
+    background: #d32f2f;
+    transform: translateY(-1px);
+}
+
+/* モーダル */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 0;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.input-field, .textarea-field {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.input-field:focus, .textarea-field:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.textarea-field {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+/* 空の状態 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
     color: white;
 }
 
-.day-cell.checked::after {
-    content: '✓';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.day-cell.today {
-    background: rgba(33, 150, 243, 0.3);
-    border: 2px solid #2196F3;
-}
-
-.summary-cell {
-    text-align: center;
-    font-weight: 600;
-    padding: 8px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 6px;
-}
-
-/* フッター */
-footer {
-    margin-top: auto;
-}
-
-.nav-icons {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
-
-.nav-icon {
+.empty-state h3 {
     font-size: 1.5rem;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    background: rgba(255,255,255,0.1);
+    margin-bottom: 10px;
 }
 
-.nav-icon:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateY(-3px);
-}
-
-.nav-icon.active {
-    background: rgba(33, 150, 243, 0.3);
-    border: 2px solid #2196F3;
+.empty-state p {
+    font-size: 1rem;
+    opacity: 0.8;
 }
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
     .container {
-        padding: 10px;
+        padding: 15px;
+    }
+    
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
     }
     
     header h1 {
         font-size: 2rem;
     }
     
-    .calendar-header,
-    .habit-row {
-        grid-template-columns: 1.5fr repeat(7, 0.8fr) 0.8fr 0.8fr;
-        gap: 5px;
-        font-size: 0.9rem;
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
     }
     
-    .day-cell,
-    .summary-cell {
-        padding: 6px;
+    .modal-actions {
+        flex-direction: column;
     }
     
-    .nav-icons {
-        gap: 20px;
-    }
-    
-    .nav-icon {
-        font-size: 1.2rem;
-        padding: 8px;
+    .btn-primary, .btn-secondary {
+        width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    .calendar-header,
-    .habit-row {
-        grid-template-columns: 1.2fr repeat(7, 0.7fr) 0.7fr 0.7fr;
-        gap: 3px;
-        font-size: 0.8rem;
+    .memo-header {
+        flex-direction: column;
+        gap: 10px;
     }
     
-    .day-cell,
-    .summary-cell {
-        padding: 4px;
+    .memo-actions {
+        justify-content: center;
     }
 }

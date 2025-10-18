@@ -1,202 +1,232 @@
-// 習慣トラッカーアプリケーション
-class HabitTracker {
+// メモアプリケーション
+class MemoApp {
     constructor() {
-        this.habits = [
-            { name: '早寝早起', id: 'early_bed' },
-            { name: 'ジャーナル', id: 'journal' },
-            { name: '勉強', id: 'study' },
-            { name: '筋トレ', id: 'exercise' },
-            { name: '読書', id: 'reading' },
-            { name: 'To Do List', id: 'todo' },
-            { name: 'No寝スマホ', id: 'no_phone' },
-            { name: 'No酒', id: 'no_alcohol' },
-            { name: 'No暴食', id: 'no_overeating' },
-            { name: 'プロテイン', id: 'protein' },
-            { name: '整腸剤', id: 'probiotics' },
-            { name: 'ビタミンD', id: 'vitamin_d' },
-            { name: 'クレアチン', id: 'creatine' },
-            { name: 'ガンダ・マグ', id: 'ganda_mag' },
-            { name: 'ベリー', id: 'berry' }
-        ];
-        
-        this.currentDate = new Date();
-        this.data = this.loadData();
+        this.memos = this.loadMemos();
+        this.editingId = null;
+        this.searchTerm = '';
         
         this.init();
     }
     
     // 初期化
     init() {
-        this.renderCalendar();
+        this.renderMemos();
         this.setupEventListeners();
-        this.updateTodayHighlight();
     }
     
-    // データの読み込み
-    loadData() {
-        const saved = localStorage.getItem('habit-tracker-data');
-        return saved ? JSON.parse(saved) : {};
+    // メモの読み込み
+    loadMemos() {
+        const saved = localStorage.getItem('memo-app-data');
+        return saved ? JSON.parse(saved) : [];
     }
     
-    // データの保存
-    saveData() {
-        localStorage.setItem('habit-tracker-data', JSON.stringify(this.data));
+    // メモの保存
+    saveMemos() {
+        localStorage.setItem('memo-app-data', JSON.stringify(this.memos));
     }
     
-    // カレンダーの描画
-    renderCalendar() {
-        const calendarBody = document.getElementById('calendar-body');
-        calendarBody.innerHTML = '';
+    // メモの描画
+    renderMemos() {
+        const container = document.getElementById('memos-container');
+        container.innerHTML = '';
         
-        // 現在の週の日付を取得
-        const weekDates = this.getWeekDates();
+        const filteredMemos = this.memos.filter(memo => 
+            memo.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+            memo.content.toLowerCase().includes(this.searchTerm.toLowerCase())
+        );
         
-        this.habits.forEach(habit => {
-            const row = document.createElement('div');
-            row.className = 'habit-row';
-            
-            // 習慣名
-            const nameCell = document.createElement('div');
-            nameCell.className = 'habit-name';
-            nameCell.textContent = habit.name;
-            row.appendChild(nameCell);
-            
-            // 各日のチェックボックス
-            weekDates.forEach(date => {
-                const dayCell = document.createElement('div');
-                dayCell.className = 'day-cell';
-                
-                // 今日の日付をハイライト
-                if (this.isToday(date)) {
-                    dayCell.classList.add('today');
-                }
-                
-                // チェック状態を確認
-                const dateKey = this.formatDate(date);
-                const isChecked = this.data[habit.id] && this.data[habit.id][dateKey];
-                
-                if (isChecked) {
-                    dayCell.classList.add('checked');
-                }
-                
-                // クリックイベント
-                dayCell.addEventListener('click', () => {
-                    this.toggleHabit(habit.id, dateKey);
-                    this.renderCalendar(); // 再描画
-                });
-                
-                row.appendChild(dayCell);
-            });
-            
-            // 週計
-            const weekCount = this.getWeekCount(habit.id, weekDates);
-            const weekCell = document.createElement('div');
-            weekCell.className = 'summary-cell';
-            weekCell.textContent = weekCount;
-            row.appendChild(weekCell);
-            
-            // 合計
-            const totalCount = this.getTotalCount(habit.id);
-            const totalCell = document.createElement('div');
-            totalCell.className = 'summary-cell';
-            totalCell.textContent = totalCount;
-            row.appendChild(totalCell);
-            
-            calendarBody.appendChild(row);
+        if (filteredMemos.length === 0) {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.innerHTML = `
+                <h3>📝 メモがありません</h3>
+                <p>「+ メモを追加」ボタンから新しいメモを作成しましょう</p>
+            `;
+            container.appendChild(emptyState);
+            return;
+        }
+        
+        filteredMemos.forEach(memo => {
+            const memoCard = this.createMemoCard(memo);
+            container.appendChild(memoCard);
         });
     }
     
-    // 現在の週の日付を取得
-    getWeekDates() {
-        const dates = [];
-        const today = new Date(this.currentDate);
-        const dayOfWeek = today.getDay();
-        const startOfWeek = new Date(today);
-        startOfWeek.setDate(today.getDate() - dayOfWeek + 1); // 月曜日から開始
+    // メモカードの作成
+    createMemoCard(memo) {
+        const card = document.createElement('div');
+        card.className = 'memo-card';
         
-        for (let i = 0; i < 7; i++) {
-            const date = new Date(startOfWeek);
-            date.setDate(startOfWeek.getDate() + i);
-            dates.push(date);
+        const date = new Date(memo.createdAt).toLocaleDateString('ja-JP', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        card.innerHTML = `
+            <div class="memo-header">
+                <div>
+                    <div class="memo-title">${this.escapeHtml(memo.title)}</div>
+                    <div class="memo-date">${date}</div>
+                </div>
+            </div>
+            <div class="memo-content">${this.escapeHtml(memo.content)}</div>
+            <div class="memo-actions">
+                <button class="btn-edit" onclick="memoApp.editMemo(${memo.id})">編集</button>
+                <button class="btn-delete" onclick="memoApp.deleteMemo(${memo.id})">削除</button>
+            </div>
+        `;
+        
+        return card;
+    }
+    
+    // HTMLエスケープ
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // メモの追加
+    addMemo() {
+        this.editingId = null;
+        this.showModal();
+    }
+    
+    // メモの編集
+    editMemo(id) {
+        const memo = this.memos.find(m => m.id === id);
+        if (memo) {
+            this.editingId = id;
+            document.getElementById('memo-title').value = memo.title;
+            document.getElementById('memo-content').value = memo.content;
+            this.showModal();
+        }
+    }
+    
+    // メモの削除
+    deleteMemo(id) {
+        if (confirm('このメモを削除しますか？')) {
+            this.memos = this.memos.filter(m => m.id !== id);
+            this.saveMemos();
+            this.renderMemos();
+        }
+    }
+    
+    // メモの保存
+    saveMemo() {
+        const title = document.getElementById('memo-title').value.trim();
+        const content = document.getElementById('memo-content').value.trim();
+        
+        if (!title || !content) {
+            alert('タイトルと内容を入力してください');
+            return;
         }
         
-        return dates;
-    }
-    
-    // 日付が今日かどうか
-    isToday(date) {
-        const today = new Date();
-        return date.toDateString() === today.toDateString();
-    }
-    
-    // 日付を文字列にフォーマット
-    formatDate(date) {
-        return date.toISOString().split('T')[0];
-    }
-    
-    // 習慣の切り替え
-    toggleHabit(habitId, dateKey) {
-        if (!this.data[habitId]) {
-            this.data[habitId] = {};
-        }
+        const now = new Date().toISOString();
         
-        if (this.data[habitId][dateKey]) {
-            delete this.data[habitId][dateKey];
+        if (this.editingId) {
+            // 編集
+            const memo = this.memos.find(m => m.id === this.editingId);
+            if (memo) {
+                memo.title = title;
+                memo.content = content;
+                memo.updatedAt = now;
+            }
         } else {
-            this.data[habitId][dateKey] = true;
+            // 新規作成
+            const newMemo = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                createdAt: now,
+                updatedAt: now
+            };
+            this.memos.unshift(newMemo);
         }
         
-        this.saveData();
+        this.saveMemos();
+        this.hideModal();
+        this.renderMemos();
     }
     
-    // 週のカウント
-    getWeekCount(habitId, weekDates) {
-        if (!this.data[habitId]) return 0;
+    // モーダル表示
+    showModal() {
+        const modal = document.getElementById('memo-modal');
+        const title = document.getElementById('modal-title');
+        const titleInput = document.getElementById('memo-title');
+        const contentInput = document.getElementById('memo-content');
         
-        return weekDates.filter(date => {
-            const dateKey = this.formatDate(date);
-            return this.data[habitId][dateKey];
-        }).length;
+        if (this.editingId) {
+            title.textContent = 'メモを編集';
+        } else {
+            title.textContent = 'メモを追加';
+            titleInput.value = '';
+            contentInput.value = '';
+        }
+        
+        modal.style.display = 'block';
+        titleInput.focus();
     }
     
-    // 合計カウント
-    getTotalCount(habitId) {
-        if (!this.data[habitId]) return 0;
-        
-        return Object.keys(this.data[habitId]).length;
+    // モーダル非表示
+    hideModal() {
+        const modal = document.getElementById('memo-modal');
+        modal.style.display = 'none';
+        this.editingId = null;
+    }
+    
+    // 検索
+    searchMemos() {
+        this.searchTerm = document.getElementById('search-input').value;
+        this.renderMemos();
     }
     
     // イベントリスナーの設定
     setupEventListeners() {
-        // 今日ボタン
-        const todayBtn = document.getElementById('today-btn');
-        todayBtn.addEventListener('click', () => {
-            this.currentDate = new Date();
-            this.updateTodayHighlight();
-            this.renderCalendar();
+        // メモ追加ボタン
+        document.getElementById('add-memo-btn').addEventListener('click', () => {
+            this.addMemo();
         });
         
-        // ナビゲーションアイコン
-        const navIcons = document.querySelectorAll('.nav-icon');
-        navIcons.forEach((icon, index) => {
-            icon.addEventListener('click', () => {
-                navIcons.forEach(i => i.classList.remove('active'));
-                icon.classList.add('active');
-            });
+        // 検索入力
+        document.getElementById('search-input').addEventListener('input', () => {
+            this.searchMemos();
         });
-    }
-    
-    // 今日のハイライト更新
-    updateTodayHighlight() {
-        const today = new Date();
-        const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', 
-                           '7月', '8月', '9月', '10月', '11月', '12月'];
-        const monthElement = document.getElementById('current-month');
-        monthElement.textContent = `${today.getFullYear()}年${monthNames[today.getMonth()]}`;
+        
+        // モーダル関連
+        document.getElementById('close-modal').addEventListener('click', () => {
+            this.hideModal();
+        });
+        
+        document.getElementById('cancel-memo').addEventListener('click', () => {
+            this.hideModal();
+        });
+        
+        document.getElementById('save-memo').addEventListener('click', () => {
+            this.saveMemo();
+        });
+        
+        // モーダル外クリックで閉じる
+        document.getElementById('memo-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'memo-modal') {
+                this.hideModal();
+            }
+        });
+        
+        // Enterキーで保存
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                this.saveMemo();
+            }
+        });
     }
 }
 
 // アプリケーションの開始
+let memoApp;
 document.addEventListener('DOMContentLoaded', () => {
-    new HabitTracker();
+    memoApp = new MemoApp();
 });
