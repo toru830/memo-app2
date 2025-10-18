@@ -71,12 +71,13 @@ jobs:
         publish_dir: ./client/dist
         cname: # カスタムドメインがある場合はここに設定
         
-    - name: Deploy to Firebase Hosting
-      uses: FirebaseExtended/action-hosting-deploy@v0
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      with:
-        repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MEMO_APP_7D6CF }}'
-        channelId: live
-        projectId: memo-app-7d6cf
-        entryPoint: ./client/dist
+    # Firebase Hosting デプロイは一時的に無効化
+    # - name: Deploy to Firebase Hosting
+    #   uses: FirebaseExtended/action-hosting-deploy@v0
+    #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    #   with:
+    #     repoToken: '${{ secrets.GITHUB_TOKEN }}'
+    #     firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MEMO_APP_7D6CF }}'
+    #     channelId: live
+    #     projectId: memo-app-7d6cf
+    #     entryPoint: ./client/dist
