@@ -1,10 +1,7 @@
 // Firebase configuration and initialization
 declare const firebase: any;
 
-// シンプルなFirebase設定（環境変数を使わない）
-console.log('🚀 Simple Firebase Setup - No Environment Variables');
-
-// Firebase設定（直接記述 - 確実に動作させる）
+// Firebase設定（直接記述 - 環境変数を使わない）
 const firebaseConfig = {
   apiKey: "AIzaSyBhl1GkAnWHRxyza7X9-M8Y3sdWhHGRiC0",
   authDomain: "memo-app-7d6cf.firebaseapp.com",
@@ -14,41 +11,41 @@ const firebaseConfig = {
   appId: "1:935089831921:web:1ac161a36bc175c1090e50"
 };
 
-console.log('🔥 Firebase Config (Direct):', firebaseConfig);
+console.log('🔥 Firebase Config:', firebaseConfig);
 
-// Firebase初期化（ブラウザ環境のみ）
+// Firebase初期化
 let app: any = null;
 let auth: any = null;
 let db: any = null;
 let firebaseInstance: any = null;
 
-// シンプルなFirebase初期化
-console.log('🚀 Starting Firebase initialization...');
-
-if (typeof window !== 'undefined' && (window as any).firebase) {
+// ブラウザ環境でのみFirebaseを初期化
+if (typeof window !== 'undefined') {
   try {
     firebaseInstance = (window as any).firebase;
     
-    console.log('🔥 Firebase SDK found, initializing...');
-    
-    // Firebase アプリを初期化
-    if (!firebaseInstance.apps.length) {
-      app = firebaseInstance.initializeApp(firebaseConfig);
+    if (firebaseInstance) {
+      console.log('🚀 Initializing Firebase...');
+      
+      // Firebase アプリを初期化
+      if (!firebaseInstance.apps.length) {
+        app = firebaseInstance.initializeApp(firebaseConfig);
+      } else {
+        app = firebaseInstance.app();
+      }
+      
+      auth = firebaseInstance.auth();
+      db = firebaseInstance.firestore();
+      
+      console.log('✅ Firebase initialized successfully!');
     } else {
-      app = firebaseInstance.app();
+      console.error('❌ Firebase SDK not found');
     }
-    
-    auth = firebaseInstance.auth();
-    db = firebaseInstance.firestore();
-    
-    console.log('✅ Firebase initialized successfully!');
-    console.log('Auth:', !!auth);
-    console.log('Firestore:', !!db);
   } catch (error) {
     console.error('❌ Firebase initialization error:', error);
   }
 } else {
-  console.error('❌ Firebase SDK not found on window object');
+  console.log('⚠️ Not in browser environment');
 }
 
 export { app, auth, db, firebaseInstance as firebase };
