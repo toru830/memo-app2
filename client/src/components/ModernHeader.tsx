@@ -1,6 +1,6 @@
 import React from 'react';
 import { Search, Bell, Settings } from 'lucide-react';
-import { GoogleAuth } from './GoogleAuth';
+import { EmailAuth } from './EmailAuth';
 
 interface ModernHeaderProps {
   onSearch: (term: string) => void;
@@ -23,7 +23,7 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
           </div>
           
                   <div className="flex items-center gap-3">
-                    <GoogleAuth onAuthChange={onAuthChange} />
+                    <EmailAuth onAuthChange={onAuthChange} />
                     <button className="p-2 rounded-full hover:bg-gray-800 transition-colors">
                       <Bell size={20} className="text-gray-400" />
                     </button>
