@@ -8,7 +8,7 @@ interface GoogleUser {
 
 class GoogleAuthService {
   private user: GoogleUser | null = null;
-  private readonly CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // 後で設定
+  private readonly CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Google Cloud Consoleで設定が必要
 
   // Google認証を初期化
   async initialize(): Promise<void> {
