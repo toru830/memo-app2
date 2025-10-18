@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, Bell, Settings } from 'lucide-react';
+import { GitHubAuth } from './GitHubAuth';
 
 interface ModernHeaderProps {
   onSearch: (term: string) => void;
@@ -22,6 +23,7 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
           </div>
           
           <div className="flex items-center gap-3">
+            <GitHubAuth onSyncComplete={onSyncComplete} />
             <button className="p-2 rounded-full hover:bg-gray-800 transition-colors">
               <Bell size={20} className="text-gray-400" />
             </button>

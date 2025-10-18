@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Memo, CreateMemoData, UpdateMemoData, FilterOptions } from '../types';
-import { apiService } from '../services/api';
 import { localStorageService } from '../services/localStorage';
+import { githubGistService } from '../services/githubGistService';
 
-// 本番環境（GitHub Pages）ではlocalStorageを使用
-const isProduction = process.env.NODE_ENV === 'production';
-const service = isProduction ? localStorageService : apiService;
+// 常にlocalStorageを使用（GitHub Gistは同期用）
+const service = localStorageService;
 
 export const useMemos = (filters?: FilterOptions) => {
   const [memos, setMemos] = useState<Memo[]>([]);
@@ -69,6 +68,44 @@ export const useMemos = (filters?: FilterOptions) => {
     await updateMemo(id, { is_completed });
   }, [updateMemo]);
 
+  // GitHub Gist からデータを同期
+  const syncFromGist = useCallback(async () => {
+    try {
+      if (!githubGistService.isAuthenticated()) {
+        throw new Error('GitHub認証が必要です');
+      }
+      
+      const gistData = await githubGistService.syncFromGist();
+      if (gistData && gistData.memos) {
+        setMemos(gistData.memos);
+        console.log('GitHub Gistからデータを同期しました');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to sync from Gist');
+      throw err;
+    }
+  }, []);
+
+  // GitHub Gist にデータを同期
+  const syncToGist = useCallback(async () => {
+    try {
+      if (!githubGistService.isAuthenticated()) {
+        throw new Error('GitHub認証が必要です');
+      }
+      
+      const data = {
+        memos,
+        lastSync: new Date().toISOString()
+      };
+      
+      await githubGistService.saveData(data);
+      console.log('GitHub Gistにデータを同期しました');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to sync to Gist');
+      throw err;
+    }
+  }, [memos]);
+
   return {
     memos,
     loading,
@@ -78,5 +115,7 @@ export const useMemos = (filters?: FilterOptions) => {
     deleteMemo,
     toggleComplete,
     refetch: fetchMemos,
+    syncFromGist,
+    syncToGist,
   };
 };
