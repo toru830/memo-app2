@@ -1,0 +1,22 @@
+const https = require('https');
+
+console.log('🔥 Firebase Console の承認済みドメイン設定');
+console.log('');
+console.log('以下の手順で設定してください：');
+console.log('');
+console.log('1. Firebase Console にアクセス:');
+console.log('   https://console.firebase.google.com/u/0/project/memo-app-7d6cf/authentication/settings');
+console.log('');
+console.log('2. 「承認済みドメイン」セクションを探す');
+console.log('');
+console.log('3. 「ドメインを追加」ボタンをクリック');
+console.log('');
+console.log('4. 以下のドメインを入力:');
+console.log('   toru830.github.io');
+console.log('');
+console.log('5. 「追加」ボタンをクリック');
+console.log('');
+console.log('✅ 設定完了後、以下でアクセス可能:');
+console.log('   https://toru830.github.io/memo-app/');
+console.log('');
+console.log('🎉 これで、どこからでもGoogleアカウントでログインしてタスク管理ができます！');
