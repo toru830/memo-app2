@@ -44,66 +44,40 @@ let auth: any = null;
 let db: any = null;
 let firebaseInstance: any = null;
 
-// Firebase初期化の条件を改善
-const isFirebaseConfigured = firebaseConfig.apiKey && 
-  firebaseConfig.apiKey !== "firebase-not-configured" &&
-  firebaseConfig.projectId &&
-  firebaseConfig.projectId !== "firebase-not-configured";
+// 確実にFirebaseを初期化
+console.log('🚀 Starting Firebase initialization...');
 
-console.log('🔧 Firebase Configuration Check:', {
-  isFirebaseConfigured,
-  hasWindow: typeof window !== 'undefined',
-  apiKey: firebaseConfig.apiKey,
-  projectId: firebaseConfig.projectId
-});
-
-// Firebase SDKの読み込み確認
-console.log('🔍 Firebase SDK Check:');
-console.log('window.firebase:', typeof (window as any).firebase);
-console.log('window.firebase.apps:', (window as any).firebase?.apps);
-
-if (typeof window !== 'undefined' && isFirebaseConfigured) {
+// 少し待ってからFirebaseを初期化（SDK読み込み完了を待つ）
+setTimeout(() => {
   try {
-    // グローバルfirebaseオブジェクトを取得
-    firebaseInstance = (window as any).firebase;
+    console.log('🔍 Checking Firebase SDK...');
+    console.log('window.firebase:', typeof (window as any).firebase);
     
-    console.log('🔍 Firebase instance check:', {
-      exists: !!firebaseInstance,
-      hasApps: !!firebaseInstance?.apps,
-      appsLength: firebaseInstance?.apps?.length
-    });
-    
-    if (firebaseInstance && firebaseInstance.apps) {
-      // 既に初期化されていない場合のみ初期化
+    if (typeof window !== 'undefined' && (window as any).firebase) {
+      firebaseInstance = (window as any).firebase;
+      
+      console.log('🔥 Firebase SDK found, initializing...');
+      
+      // Firebase アプリを初期化
       if (!firebaseInstance.apps.length) {
-        console.log('🚀 Initializing Firebase app...');
         app = firebaseInstance.initializeApp(firebaseConfig);
       } else {
-        console.log('🔄 Using existing Firebase app...');
         app = firebaseInstance.app();
       }
       
       auth = firebaseInstance.auth();
       db = firebaseInstance.firestore();
       
-      console.log('✅ Firebase initialized successfully');
+      console.log('✅ Firebase initialized successfully!');
       console.log('Auth:', !!auth);
       console.log('Firestore:', !!db);
     } else {
-      console.error('❌ Firebase instance not found or apps not available');
-      console.error('Available on window:', Object.keys(window).filter(key => key.includes('firebase')));
+      console.error('❌ Firebase SDK not found on window object');
     }
   } catch (error) {
     console.error('❌ Firebase initialization error:', error);
   }
-} else {
-  console.log('⚠️ Firebase not configured - using local storage only');
-  console.log('Configuration status:', {
-    hasWindow: typeof window !== 'undefined',
-    isFirebaseConfigured,
-    config: firebaseConfig
-  });
-}
+}, 1000); // 1秒待ってから初期化
 
 export { app, auth, db, firebaseInstance as firebase };
 
