@@ -1,13 +1,8 @@
 // シンプルなメール・パスワード認証サービス
-interface User {
+export interface User {
   id: string;
   email: string;
   displayName?: string;
-}
-
-interface AuthError {
-  code: string;
-  message: string;
 }
 
 class EmailAuthService {
