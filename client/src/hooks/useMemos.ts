@@ -75,7 +75,7 @@ export const useMemos = (filters?: FilterOptions) => {
         throw new Error('GitHub認証が必要です');
       }
       
-      const gistData = await gistSyncService.fetchData();
+      const gistData = await gistSyncService.getData();
       if (gistData && gistData.memos) {
         setMemos(gistData.memos);
         console.log('GitHub Gistからデータを同期しました');
