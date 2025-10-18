@@ -2,9 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -25,50 +23,12 @@ jobs:
       run: npm ci
       working-directory: ./client
       
-    - name: Debug Environment Variables (Before Build)
-      run: |
-        echo "🔍 Debug Environment Variables (Before Build):"
-        echo "VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}"
-        echo "VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}"
-        echo "VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}"
-        echo "VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}"
-        echo "VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}"
-        echo "VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}"
-        
     - name: Build
       run: npm run build
       working-directory: ./client
-      env:
-        VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-        VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
-        VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
-        VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
-        VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-        VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
-        
-    - name: Debug Environment Variables (After Build)
-      run: |
-        echo "🔍 Debug Environment Variables (After Build):"
-        echo "VITE_FIREBASE_API_KEY: $VITE_FIREBASE_API_KEY"
-        echo "VITE_FIREBASE_AUTH_DOMAIN: $VITE_FIREBASE_AUTH_DOMAIN"
-        echo "VITE_FIREBASE_PROJECT_ID: $VITE_FIREBASE_PROJECT_ID"
-        echo "VITE_FIREBASE_STORAGE_BUCKET: $VITE_FIREBASE_STORAGE_BUCKET"
-        echo "VITE_FIREBASE_MESSAGING_SENDER_ID: $VITE_FIREBASE_MESSAGING_SENDER_ID"
-        echo "VITE_FIREBASE_APP_ID: $VITE_FIREBASE_APP_ID"
-        
-    - name: Debug Build Output
-      run: |
-        echo "🔍 Debug Build Output:"
-        ls -la ./client/dist/
-        echo "Checking for environment variables in built files:"
-        grep -r "VITE_FIREBASE" ./client/dist/ || echo "No VITE_FIREBASE found in build output"
         
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./client/dist
-        cname: # カスタムドメインがある場合はここに設定
-        
-    # Firebase Hosting デプロイは完全に無効化（GitHub Pages のみ使用）
