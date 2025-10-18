@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Github, Cloud, CloudOff, Sync, CheckCircle, AlertCircle } from 'lucide-react';
+import { Github, Cloud, CloudOff, RefreshCcw, CheckCircle, AlertCircle } from 'lucide-react';
 import { gistSyncService } from '../services/gist-sync';
 
 interface GitHubSyncProps {
@@ -136,7 +136,7 @@ export const GitHubSync: React.FC<GitHubSyncProps> = ({ onSyncComplete }) => {
           disabled={isLoading}
           className="flex items-center gap-2 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50 text-sm"
         >
-          <Sync size={16} className={isLoading ? 'animate-spin' : ''} />
+          <RefreshCcw size={16} className={isLoading ? 'animate-spin' : ''} />
           {isLoading ? '同期中...' : '同期'}
         </button>
         <button

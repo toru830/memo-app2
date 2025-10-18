@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Database, BarChart3 } from 'lucide-react';
-import { DataManager } from './DataManager';
+// import { DataManager } from './DataManager'; // 削除されたコンポーネント
 import { StatsCard } from './StatsCard';
 import { Memo } from '../types';
 
@@ -39,7 +39,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, onDataCha
                 <Database size={20} className="text-blue-400" />
                 <h3 className="text-lg font-semibold text-white">データ管理</h3>
               </div>
-              <DataManager onDataChange={onDataChange} />
+              <div className="text-sm text-gray-300">
+                <p>データはローカルストレージに保存されます。</p>
+                <p>GitHub同期機能でクラウドバックアップが可能です。</p>
+              </div>
             </div>
 
             <div className="bg-gray-700/50 rounded-lg p-4">

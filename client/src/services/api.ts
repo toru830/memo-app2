@@ -1,5 +1,5 @@
 import { Memo, CreateMemoData, UpdateMemoData } from '../types';
-import { syncService } from './syncService';
+import { localStorageService } from './localStorage';
 
 // Vercel用の設定（ローカルストレージ + Firestore同期を使用）
 const API_BASE_URL = '/api';
@@ -37,34 +37,34 @@ class ApiService {
     is_task?: boolean;
     is_completed?: boolean;
   }): Promise<Memo[]> {
-    return syncService.getMemos(params || {});
+    return localStorageService.getMemos(params || {});
   }
 
   async getMemo(id: number): Promise<Memo> {
-    return syncService.getMemoById(id);
+    return localStorageService.getMemoById(id);
   }
 
   async createMemo(data: CreateMemoData): Promise<{ id: number; message: string }> {
-    // syncServiceを使用してLocalStorageとFirestoreの両方に保存
-    return syncService.createMemo(data);
+    // localStorageServiceを使用してローカルストレージに保存
+    return localStorageService.createMemo(data);
   }
 
   async updateMemo(id: number, data: UpdateMemoData): Promise<{ message: string }> {
-    // syncServiceを使用してLocalStorageとFirestoreの両方を更新
-    return syncService.updateMemo(id, data);
+    // localStorageServiceを使用してローカルストレージを更新
+    return localStorageService.updateMemo(id, data);
   }
 
   async deleteMemo(id: number): Promise<{ message: string }> {
-    // syncServiceを使用してLocalStorageとFirestoreの両方から削除
-    return syncService.deleteMemo(id);
+    // localStorageServiceを使用してローカルストレージから削除
+    return localStorageService.deleteMemo(id);
   }
 
   async getCategories(): Promise<string[]> {
-    return syncService.getCategories();
+    return localStorageService.getCategories();
   }
 
   async getTags(): Promise<string[]> {
-    return syncService.getTags();
+    return localStorageService.getTags();
   }
 
   // ヘルスチェック
