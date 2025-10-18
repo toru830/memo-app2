@@ -3,12 +3,12 @@ declare const firebase: any;
 
 // Firebase設定（環境変数から読み込み、なければ無効な設定）
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "firebase-not-configured",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "firebase-not-configured",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "firebase-not-configured",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "firebase-not-configured",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "firebase-not-configured",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "firebase-not-configured"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBhl1GkAnWHRxyza7X9-M8Y3sdWhHGRiC0",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "memo-app-7d6cf.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "memo-app-7d6cf",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "memo-app-7d6cf.firebasestorage.app",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "935089831921",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:935089831921:web:1ac161a36bc175c1090e50"
 };
 
 // Firebase初期化（ブラウザ環境のみ）
