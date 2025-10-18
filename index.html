@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>習慣トラッカー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📅 習慣トラッカー</h1>
+            <div class="date-info">
+                <span id="current-month">2025年10月</span>
+                <button id="today-btn">今日</button>
+            </div>
+        </header>
+        
+        <main>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="item-column">項目</div>
+                    <div class="day-column">月</div>
+                    <div class="day-column">火</div>
+                    <div class="day-column">水</div>
+                    <div class="day-column">木</div>
+                    <div class="day-column">金</div>
+                    <div class="day-column">土</div>
+                    <div class="day-column">日</div>
+                    <div class="summary-column">週計</div>
+                    <div class="summary-column">合計</div>
+                </div>
+                
+                <div class="calendar-body" id="calendar-body">
+                    <!-- 習慣データがここに動的に生成されます -->
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <div class="nav-icons">
+                <div class="nav-icon active">🏠</div>
+                <div class="nav-icon">📊</div>
+                <div class="nav-icon">👹</div>
+                <div class="nav-icon">🏆</div>
+                <div class="nav-icon">⚙️</div>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
