@@ -57,16 +57,29 @@ console.log('🔧 Firebase Configuration Check:', {
   projectId: firebaseConfig.projectId
 });
 
+// Firebase SDKの読み込み確認
+console.log('🔍 Firebase SDK Check:');
+console.log('window.firebase:', typeof (window as any).firebase);
+console.log('window.firebase.apps:', (window as any).firebase?.apps);
+
 if (typeof window !== 'undefined' && isFirebaseConfigured) {
   try {
     // グローバルfirebaseオブジェクトを取得
     firebaseInstance = (window as any).firebase;
     
+    console.log('🔍 Firebase instance check:', {
+      exists: !!firebaseInstance,
+      hasApps: !!firebaseInstance?.apps,
+      appsLength: firebaseInstance?.apps?.length
+    });
+    
     if (firebaseInstance && firebaseInstance.apps) {
       // 既に初期化されていない場合のみ初期化
       if (!firebaseInstance.apps.length) {
+        console.log('🚀 Initializing Firebase app...');
         app = firebaseInstance.initializeApp(firebaseConfig);
       } else {
+        console.log('🔄 Using existing Firebase app...');
         app = firebaseInstance.app();
       }
       
@@ -74,8 +87,11 @@ if (typeof window !== 'undefined' && isFirebaseConfigured) {
       db = firebaseInstance.firestore();
       
       console.log('✅ Firebase initialized successfully');
+      console.log('Auth:', !!auth);
+      console.log('Firestore:', !!db);
     } else {
-      console.error('❌ Firebase instance not found');
+      console.error('❌ Firebase instance not found or apps not available');
+      console.error('Available on window:', Object.keys(window).filter(key => key.includes('firebase')));
     }
   } catch (error) {
     console.error('❌ Firebase initialization error:', error);
