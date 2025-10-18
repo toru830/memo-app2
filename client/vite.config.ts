@@ -6,6 +6,12 @@ export default defineConfig(({ mode }) => {
   // 環境変数を読み込み
   const env = loadEnv(mode, process.cwd(), '')
   
+  // デバッグ用：環境変数の値を確認
+  console.log('🔍 Vite Config - Environment Variables:')
+  console.log('VITE_FIREBASE_API_KEY:', env.VITE_FIREBASE_API_KEY ? '✅ Set' : '❌ Not set')
+  console.log('VITE_FIREBASE_AUTH_DOMAIN:', env.VITE_FIREBASE_AUTH_DOMAIN ? '✅ Set' : '❌ Not set')
+  console.log('VITE_FIREBASE_PROJECT_ID:', env.VITE_FIREBASE_PROJECT_ID ? '✅ Set' : '❌ Not set')
+  
   return {
     plugins: [react()],
     base: '/memo-app/', // GitHub Pages用のベースパス
