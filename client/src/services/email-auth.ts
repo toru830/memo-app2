@@ -101,7 +101,7 @@ class EmailAuthService {
     }
 
     try {
-      // シンプルな認証シミュレーション（実際のFirebaseの代わり）
+      // シンプルな認証シミュレーション
       // 実際のプロジェクトでは、バックエンドAPIを使用
       const user: User = {
         id: Date.now().toString(),
