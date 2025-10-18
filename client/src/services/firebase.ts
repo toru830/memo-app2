@@ -26,14 +26,14 @@ console.log('🔍 Environment Variables Check:', {
   projectId: !!import.meta.env.VITE_FIREBASE_PROJECT_ID
 });
 
-// Firebase設定（環境変数優先、なければハードコード）
+// Firebase設定（完全ハードコード - 確実に動作させる）
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyBhl1GkAnWHRxyza7X9-M8Y3sdWhHGRiC0",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "memo-app-7d6cf.firebaseapp.com",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "memo-app-7d6cf",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "memo-app-7d6cf.firebasestorage.app",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "935089831921",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:935089831921:web:1ac161a36bc175c1090e50"
+  apiKey: "AIzaSyBhl1GkAnWHRxyza7X9-M8Y3sdWhHGRiC0",
+  authDomain: "memo-app-7d6cf.firebaseapp.com",
+  projectId: "memo-app-7d6cf",
+  storageBucket: "memo-app-7d6cf.firebasestorage.app",
+  messagingSenderId: "935089831921",
+  appId: "1:935089831921:web:1ac161a36bc175c1090e50"
 };
 
 console.log('🔥 Firebase Config:', firebaseConfig);
