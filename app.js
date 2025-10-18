@@ -1,5 +1,5 @@
-// メモアプリケーション
-class MemoApp {
+// シンプルメモアプリケーション
+class SimpleMemoApp {
     constructor() {
         this.memos = this.loadMemos();
         this.editingId = null;
@@ -16,18 +16,33 @@ class MemoApp {
     
     // メモの読み込み
     loadMemos() {
-        const saved = localStorage.getItem('memo-app-data');
-        return saved ? JSON.parse(saved) : [];
+        try {
+            const saved = localStorage.getItem('simple-memo-app-data');
+            return saved ? JSON.parse(saved) : [];
+        } catch (error) {
+            console.error('メモの読み込みに失敗しました:', error);
+            return [];
+        }
     }
     
     // メモの保存
     saveMemos() {
-        localStorage.setItem('memo-app-data', JSON.stringify(this.memos));
+        try {
+            localStorage.setItem('simple-memo-app-data', JSON.stringify(this.memos));
+        } catch (error) {
+            console.error('メモの保存に失敗しました:', error);
+            alert('メモの保存に失敗しました。');
+        }
     }
     
     // メモの描画
     renderMemos() {
         const container = document.getElementById('memos-container');
+        if (!container) {
+            console.error('メモコンテナが見つかりません');
+            return;
+        }
+        
         container.innerHTML = '';
         
         const filteredMemos = this.memos.filter(memo => 
@@ -100,9 +115,14 @@ class MemoApp {
         const memo = this.memos.find(m => m.id === id);
         if (memo) {
             this.editingId = id;
-            document.getElementById('memo-title').value = memo.title;
-            document.getElementById('memo-content').value = memo.content;
-            this.showModal();
+            const titleInput = document.getElementById('memo-title');
+            const contentInput = document.getElementById('memo-content');
+            
+            if (titleInput && contentInput) {
+                titleInput.value = memo.title;
+                contentInput.value = memo.content;
+                this.showModal();
+            }
         }
     }
     
@@ -117,8 +137,16 @@ class MemoApp {
     
     // メモの保存
     saveMemo() {
-        const title = document.getElementById('memo-title').value.trim();
-        const content = document.getElementById('memo-content').value.trim();
+        const titleInput = document.getElementById('memo-title');
+        const contentInput = document.getElementById('memo-content');
+        
+        if (!titleInput || !contentInput) {
+            alert('入力フィールドが見つかりません');
+            return;
+        }
+        
+        const title = titleInput.value.trim();
+        const content = contentInput.value.trim();
         
         if (!title || !content) {
             alert('タイトルと内容を入力してください');
@@ -159,6 +187,11 @@ class MemoApp {
         const titleInput = document.getElementById('memo-title');
         const contentInput = document.getElementById('memo-content');
         
+        if (!modal || !title || !titleInput || !contentInput) {
+            console.error('モーダル要素が見つかりません');
+            return;
+        }
+        
         if (this.editingId) {
             title.textContent = 'メモを編集';
         } else {
@@ -174,49 +207,72 @@ class MemoApp {
     // モーダル非表示
     hideModal() {
         const modal = document.getElementById('memo-modal');
-        modal.style.display = 'none';
-        this.editingId = null;
+        if (modal) {
+            modal.style.display = 'none';
+            this.editingId = null;
+        }
     }
     
     // 検索
     searchMemos() {
-        this.searchTerm = document.getElementById('search-input').value;
-        this.renderMemos();
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            this.searchTerm = searchInput.value;
+            this.renderMemos();
+        }
     }
     
     // イベントリスナーの設定
     setupEventListeners() {
         // メモ追加ボタン
-        document.getElementById('add-memo-btn').addEventListener('click', () => {
-            this.addMemo();
-        });
+        const addBtn = document.getElementById('add-memo-btn');
+        if (addBtn) {
+            addBtn.addEventListener('click', () => {
+                this.addMemo();
+            });
+        }
         
         // 検索入力
-        document.getElementById('search-input').addEventListener('input', () => {
-            this.searchMemos();
-        });
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                this.searchMemos();
+            });
+        }
         
         // モーダル関連
-        document.getElementById('close-modal').addEventListener('click', () => {
-            this.hideModal();
-        });
+        const closeBtn = document.getElementById('close-modal');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                this.hideModal();
+            });
+        }
         
-        document.getElementById('cancel-memo').addEventListener('click', () => {
-            this.hideModal();
-        });
+        const cancelBtn = document.getElementById('cancel-memo');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                this.hideModal();
+            });
+        }
         
-        document.getElementById('save-memo').addEventListener('click', () => {
-            this.saveMemo();
-        });
+        const saveBtn = document.getElementById('save-memo');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                this.saveMemo();
+            });
+        }
         
         // モーダル外クリックで閉じる
-        document.getElementById('memo-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'memo-modal') {
-                this.hideModal();
-            }
-        });
+        const modal = document.getElementById('memo-modal');
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'memo-modal') {
+                    this.hideModal();
+                }
+            });
+        }
         
-        // Enterキーで保存
+        // Enterキーで保存（Ctrl+Enter）
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 this.saveMemo();
@@ -228,5 +284,11 @@ class MemoApp {
 // アプリケーションの開始
 let memoApp;
 document.addEventListener('DOMContentLoaded', () => {
-    memoApp = new MemoApp();
+    try {
+        memoApp = new SimpleMemoApp();
+        console.log('シンプルメモアプリが正常に起動しました');
+    } catch (error) {
+        console.error('アプリケーションの起動に失敗しました:', error);
+        alert('アプリケーションの起動に失敗しました。ページを再読み込みしてください。');
+    }
 });
