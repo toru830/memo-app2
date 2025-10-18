@@ -1,16 +1,16 @@
 import React from 'react';
 import { Search, Bell, Settings } from 'lucide-react';
-import { GitHubSync } from './GitHubSync';
+import { GoogleAuth } from './GoogleAuth';
 
 interface ModernHeaderProps {
   onSearch: (term: string) => void;
   searchTerm: string;
   onSettingsClick?: () => void;
   activeTab?: string;
-  onSyncComplete?: () => void;
+  onAuthChange?: (user: any) => void;
 }
 
-export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm, onSettingsClick, activeTab, onSyncComplete }) => {
+export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm, onSettingsClick, activeTab, onAuthChange }) => {
   return (
     <div className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-gray-800/50">
       <div className="px-4 py-4">
@@ -22,18 +22,18 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({ onSearch, searchTerm
             </h1>
           </div>
           
-          <div className="flex items-center gap-3">
-            <GitHubSync onSyncComplete={onSyncComplete} />
-            <button className="p-2 rounded-full hover:bg-gray-800 transition-colors">
-              <Bell size={20} className="text-gray-400" />
-            </button>
-            <button 
-              onClick={onSettingsClick}
-              className="p-2 rounded-full hover:bg-gray-800 transition-colors"
-            >
-              <Settings size={20} className="text-gray-400" />
-            </button>
-          </div>
+                  <div className="flex items-center gap-3">
+                    <GoogleAuth onAuthChange={onAuthChange} />
+                    <button className="p-2 rounded-full hover:bg-gray-800 transition-colors">
+                      <Bell size={20} className="text-gray-400" />
+                    </button>
+                    <button 
+                      onClick={onSettingsClick}
+                      className="p-2 rounded-full hover:bg-gray-800 transition-colors"
+                    >
+                      <Settings size={20} className="text-gray-400" />
+                    </button>
+                  </div>
         </div>
 
         {/* 検索バー - ホームタブのみ表示 */}

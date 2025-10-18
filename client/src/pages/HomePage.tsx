@@ -175,7 +175,10 @@ export const HomePage: React.FC = () => {
         searchTerm={searchTerm}
         onSettingsClick={() => setShowSettings(true)}
         activeTab={activeTab}
-        onSyncComplete={refetch}
+        onAuthChange={(user) => {
+          console.log('Auth changed:', user);
+          // 認証状態が変わったときの処理
+        }}
       />
       
       <div className="pb-24">
