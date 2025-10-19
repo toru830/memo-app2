@@ -1,4 +1,4 @@
-// メモアプリ v2.0 - Firebase除外版
+// メモアプリ v3.0 - Firebase除外版
 class MemoApp {
     constructor() {
         this.memos = [];
@@ -317,5 +317,5 @@ const app = new MemoApp();
 // デバッグ用（開発時のみ）
 if (typeof window !== 'undefined') {
     window.app = app;
-    console.log('メモアプリ v2.0 が起動しました');
+    console.log('メモアプリ v3.0 が起動しました');
 }
