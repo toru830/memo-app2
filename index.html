@@ -1,17 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/memo-app/memo-icon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="日々の考え、メモ、タスク、思いつきを管理できるメモアプリ" />
-    <title>Memo App - メモとタスク管理</title>
-    
-    <script type="module" crossorigin src="/memo-app/assets/index-4fb8c636.js"></script>
-    <link rel="stylesheet" href="/memo-app/assets/index-14a5208a.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>シンプルメモアプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 シンプルメモアプリ</h1>
+        </header>
+        
+        <main>
+            <!-- メモ入力フォーム -->
+            <div class="memo-form">
+                <input type="text" id="memoInput" placeholder="メモを入力してください..." maxlength="200">
+                <button id="addButton">追加</button>
+                </div>
+            
+            <!-- メモ一覧 -->
+            <div class="memo-list" id="memoList">
+                <!-- メモがここに動的に追加されます -->
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
