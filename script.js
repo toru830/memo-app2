@@ -1,4 +1,4 @@
-// メモアプリの基本機能
+// メモアプリの基本機能 v2.0 - クラウド同期なし
 class SimpleMemoApp {
     constructor() {
         this.memos = [];
